@@ -1,0 +1,44 @@
+<div *ngIf="loading">
+    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+        <mat-spinner [diameter]="40"></mat-spinner>
+        <h3>Loading Activities</h3>
+    </div>
+</div>
+
+<div [hidden]="loading">
+    <div [hidden]="noUsersData">
+
+        <p style="font-size: 20px;">Recent Activities </p>
+
+        <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+
+            <ng-container matColumnDef="description">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
+                <td style="font-size: 14px;" mat-cell *matCellDef="let element">
+                    <mat-icon style="margin-right: 10px;">{{element.icon}}</mat-icon> {{element.description}}&nbsp;&nbsp;
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createDate">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                <td style="font-size: 14px;" mat-cell *matCellDef="let element">
+                    {{element.createDate | date: 'MMM d, y, h:mm:ss a'}}&nbsp;&nbsp;
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 8]"></mat-paginator>
+    </div>
+
+    <div [hidden]="!noUsersData">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+            <h3>No Activities  found</h3>
+        </div>
+    </div>
+
+</div>
+
+

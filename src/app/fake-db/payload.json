@@ -1,0 +1,122 @@
+{
+  'id': '27cfc123',
+  'name': 'TASKS',
+  'uri': 'tasks',
+  'settings': {
+    'color': 'blue-grey',
+    'subscribed': false,
+    'cardCoverImages': true
+  },
+  'lists'   : [
+    {
+      'id'     : '123',
+      'name'   : 'READY'
+    },
+    {
+      'id'     : '124',
+      'name'   : 'IN PROGRESS'
+    },
+    {
+      'id'     : '125',
+      'name'   : 'DONE',
+      'idCards': ['2837273da9b93dd84243s0f9']
+    }
+  ],
+  'cards'   : [
+    {
+      'id'               : '2837273da9b93dd84243s0f9',
+      'name'             : 'Update generators',
+      'description'      : 'Current generator doesn\'t support Node.js 6 and above.',
+      'idAttachmentCover': '',
+      'idMembers'        : [
+        '26027s1930450d8bf7b10828'
+      ],
+      'idLabels'         : [
+        '26022e4129ad3a5sc28b36cd'
+      ],
+      'attachments'      : [],
+      'subscribed'       : false,
+      'checklists'       : [
+        {
+          'id'               : 'dbfb.99bd0ad37dabc.e05046f0c824d.18f26bb524c96.78bebc8488634.240c0ee6a5e45.4cb872965',
+          'name'             : 'Pages',
+          'checkItemsChecked': 2,
+          'checkItems'       : [
+            {
+              'name'   : 'Login',
+              'checked': true
+            },
+            {
+              'name'   : 'Register',
+              'checked': true
+            },
+            {
+              'name'   : 'Lost Password',
+              'checked': false
+            },
+            {
+              'name'   : 'Recover Password',
+              'checked': false
+            },
+            {
+              'name'   : 'Activate Account',
+              'checked': false
+            }
+          ]
+        }
+      ],
+      'checkItems'       : 5,
+      'checkItemsChecked': 2,
+      'comments'         : [
+
+      ],
+      'activities'       : [],
+      'due'              : '2020-03-07T12:00:00.000Z'
+    }
+  ],
+  'members' : [
+    {
+      'id'    : '56027c1930450d8bf7b10758',
+      'name'  : 'Alice Freeman',
+      'avatar': 'assets/images/avatars/alice.jpg'
+    },
+    {
+      'id'    : '26027s1930450d8bf7b10828',
+      'name'  : 'Danielle Obrien',
+      'avatar': 'assets/images/avatars/danielle.jpg'
+    },
+    {
+      'id'    : '76027g1930450d8bf7b10958',
+      'name'  : 'James Lewis',
+      'avatar': 'assets/images/avatars/james.jpg'
+    },
+    {
+      'id'    : '36027j1930450d8bf7b10158',
+      'name'  : 'Vincent Munoz',
+      'avatar': 'assets/images/avatars/vincent.jpg'
+    }
+  ],
+  'labels'  : [
+    {
+      'id'   : '26022e4129ad3a5sc28b36cd',
+      'name' : 'High Priority',
+      'color': 'red-500'
+    },
+    {
+      'id'   : '56027e4119ad3a5dc28b36cd',
+      'name' : 'Design',
+      'color': 'orange-400'
+    },
+    {
+      'id'   : '5640635e19ad3a5dc21416b2',
+      'name' : 'App',
+      'color': 'blue-600'
+    },
+    {
+      'id'   : '6540635g19ad3s5dc31412b2',
+      'name' : 'Feature',
+      'color': 'green-400'
+    }
+  ]
+
+}

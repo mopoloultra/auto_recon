@@ -1,0 +1,129 @@
+<div class="general-container">
+    <span class="general-title">Steps Management</span>
+    <br>
+    <br>
+    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+        <div fxFlex="95" fxFlex.md="95" >
+            <mat-card class="general-card">
+                <mat-form-field appearance="outline" class="company-select" *ngIf="usersService.getSession('userDetails').isSuper">
+                    <mat-label>Compnay</mat-label>
+                    <mat-select (selectionChange)="changeData($event)" [value]="this.usersService.getSession('companyInfo').id">
+                        <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div [hidden]="!loading">
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                        <mat-spinner [diameter]="40"></mat-spinner>
+                        <h3>Loading Steps</h3>
+                    </div>
+                </div>
+
+                <div [hidden]="loading">
+
+                    <div *ngIf="!loading"  [formGroup]="daysFormGroup" fxLayoutGap="10px" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+                        <div fxFlex="15" fxFlex.md="15" class="days-input">
+                            <mat-form-field class="select-form" appearance="outline">
+                                <mat-label>ADR GOAL</mat-label>
+                                <input  formControlName="ADRGoal" matInput type="number">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="15" fxFlex.md="15" class="days-input">
+                            <mat-form-field class="select-form" appearance="outline">
+                                <mat-label>TTL GOAL</mat-label>
+                                <input formControlName="TTLGoal" matInput type="number">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="15" fxFlex.md="15" class="days-input">
+                            <mat-form-field class="select-form" appearance="outline">
+                                <mat-label>Weekly Goal</mat-label>
+                                <input formControlName="completedVehicleByWeekGoal" matInput type="number">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="getPermissions()" fxFlex="10" fxFlex.md="10">
+                            <button *ngIf="!daysLoader" (click)="updateDays()" mat-raised-button color="accent" style="margin-top: 10% !important;">UPDATE</button>
+                            <mat-spinner *ngIf="daysLoader" style="margin-top: 10% !important;" color="accent" [diameter]="40"></mat-spinner>
+                        </div>
+
+                    </div>
+                <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+
+                    <ng-container matColumnDef="isActiveFlag">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-checkbox *ngIf="!element.isActiveFlag" disabled></mat-checkbox>
+                            <mat-checkbox  *ngIf="element.isActiveFlag" checked="true" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="stepName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Step Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.stepName}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="allowedDaysInStep">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Allowed Days in Step </th>
+                        <td mat-cell *matCellDef="let element"> {{element.allowedDaysInStep}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="isPartOfTTL">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Part Of TTL </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-checkbox *ngIf="!element.isPartOfTTL" disabled></mat-checkbox>
+                            <mat-checkbox  *ngIf="element.isPartOfTTL" checked="true" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="isPartOfADR">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Part Of ADR </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-checkbox *ngIf="!element.isPartOfADR" disabled></mat-checkbox>
+                            <mat-checkbox  *ngIf="element.isPartOfADR" checked="true" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="createdByUserName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+                        <td mat-cell *matCellDef="let element"> {{element.createdByUserName}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="createDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.createDate | date: 'MMM d, y, h:mm:ss a'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="update">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Update </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button (click)="update(element)" mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+                    <div [hidden]="!noTagsData">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <h3>There are no steps</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-card>
+        </div>
+
+    </div>
+</div>

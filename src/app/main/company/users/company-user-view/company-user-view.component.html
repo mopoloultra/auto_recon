@@ -1,0 +1,64 @@
+
+<h2 mat-dialog-title>Admin Details</h2>
+<hr>
+<mat-dialog-content >       
+ <table class="a">
+        <tr>
+                <td> 
+                        <b>
+                        Profile Image
+                       </b>
+                            <br>
+                            <img *ngIf="compUserData.profile.name; else noimg" [src]="compUserData.profile.name" width="50" height="50"  >
+                            <ng-template #noimg>
+                            <img  src="../../../../../assets/images/avatars/profile.jpg" width="100" height="100"  >
+                         
+                            </ng-template>
+                        </td>
+        </tr>
+        <br>
+        <br>
+     <tr>
+         <td><b>Full Name</b> </td>
+         <td>{{compUserData.profile.fname}}&nbsp;{{compUserData.profile.oname}}&nbsp;{{compUserData.profile.sname}}</td>
+         
+     </tr>
+     <tr>
+            <td><b>Contact</b> </td>
+            <td>{{compUserData.profile.contact}}</td>
+     </tr>
+     <tr>
+            <td><b>Email</b></td>
+            <td>{{compUserData.profile.email}}</td>
+        </tr>
+        <tr>
+                <td><b>Address</b></td>
+                <td>{{compUserData.profile.address}}</td>
+         </tr>
+         <tr>
+                <td><b>Address 2</b></td>
+                <td>{{compUserData.profile.address2}}</td>
+         </tr>
+         <tr>
+                <td><b>State / City</b></td>
+                <td>{{compUserData.profile.state}}&nbsp;{{compUserData.profile.city}}</td>
+         </tr>
+         <tr>
+                <td><b>Zip Code</b></td>
+                <td>{{compUserData.profile.zip}}</td>
+         </tr>
+
+         <br>
+         <br>
+         <tr>
+                <td><b>Company </b></td>
+                <td>{{compUserData.company.name}}</td>
+         </tr>
+ </table>
+ 
+</mat-dialog-content>
+<hr>
+<br>
+<mat-dialog-actions style="align-items:center;">
+    <button  color="accent" class="submit-button" mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>

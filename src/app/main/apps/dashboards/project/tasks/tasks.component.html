@@ -1,0 +1,40 @@
+<div *ngIf="loading">
+    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+        <mat-spinner [diameter]="40"></mat-spinner>
+        <h3>Loading Tasks</h3>
+    </div>
+</div>
+
+<div [hidden]="loading">
+    <div [hidden]="noUsersData">
+        <mat-form-field style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+        </mat-form-field>
+        <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+
+            <ng-container matColumnDef="name">
+                <th style="font-size: 20px;" mat-header-cell *matHeaderCellDef mat-sort-header> Tasks </th>
+                <td style="font-size: 14px; cursor: pointer;" mat-cell *matCellDef="let element" (click)="gotToTodo(element.todoID)">
+                    {{element.name}}&nbsp;&nbsp;
+                    <span class="tagss" *ngFor="let tags of element.tags" [ngClass]="tags.colorCode">{{tags.name}}</span>
+                </td>
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 8]"></mat-paginator>
+    </div>
+
+    <div [hidden]="!noUsersData">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+            <h3>No Tasks  found</h3>
+        </div>
+    </div>
+
+</div>
+

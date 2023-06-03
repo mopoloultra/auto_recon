@@ -1,0 +1,14 @@
+
+
+.status-badge{
+  border-radius: 10px !important;
+  margin: 3px;
+  text-align: center;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+::ng-deep.mat-paginator-page-size-label {
+  margin: 0 4px;
+  width: 200px;
+}

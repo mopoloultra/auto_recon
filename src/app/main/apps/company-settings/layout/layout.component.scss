@@ -1,0 +1,60 @@
+.side-menu-settings{
+  border-right: 1px solid #CCCCCC;
+  padding: 20px;
+}
+
+.active{
+  color: #006cfa !important;
+  background-color: #ebf4ff !important;;
+}
+.mat-flat-button.menu-item{
+  padding: 3px !important;
+  width: 100% !important;
+  background: transparent;
+  text-align: left;
+}
+
+.mat-toolbar.settings-bar{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #FFFFFF;
+}
+
+.mat-mini-fab.settings-fab{
+  background: #FFFFFF !important;
+  color: #006cfa !important;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width:  449px;
+}
+
+table.settings-menu{
+  height: 203px;
+}
+table.settings-menu td{
+  text-align: center;
+}
+
+.first-col{
+  border-right: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+  width: 33%;
+  cursor: pointer;
+}
+
+.third-col{
+  border-bottom: 1px solid #CCCCCC;
+  width: 33%;
+  cursor: pointer;
+}
+
+.fourth-col{
+  border-right: 1px solid #CCCCCC;
+  width: 33%;
+  cursor: pointer;
+}
+.col{
+  width: 33%;
+  cursor: pointer;
+}

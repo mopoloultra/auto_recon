@@ -1,0 +1,1330 @@
+<div id="dashboard-project" class="page-layout simple right-sidebar" fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- HEADER -->
+        <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
+
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+
+                <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+                    [@animate]="{value:'*',params:{x:'50px'}}">Welcome back, {{this.myDetails.fname}}!
+                </span>
+
+                <button mat-icon-button class="sidebar-toggle mr-8" fxHide.gt-md
+                    (click)="toggleSidebar('project-dashboard-right-sidebar-1')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+
+            <div fxLayout="row">
+
+                <div class="selected-project">{{selectedProject.name}}</div>
+
+                <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenu"
+                    aria-label="Select project">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+
+                <mat-menu #projectsMenu="matMenu">
+                    <button mat-menu-item *ngFor="let comp of myCompanyDetails" (click)="selectedProject = comp">
+                        <span>{{comp.name}}</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <mat-tab-group dynamicHeight>
+
+                <mat-tab label="Home">
+
+
+                    <div class="widget-group p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                        [@animateStagger]="{value:'50'}">
+
+                        <!-- ALL VEHICLE WIDGET -->
+                        <fuse-widget style="cursor: pointer" (click)="gotovehicle()" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">All Vehicles</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="light-blue-fg font-size-72 line-height-72">
+                                        {{stepsStats.totalVehicles}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget1.data.label}}
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        {{widgets.widget1.data.extra.label}}:
+                                    </span>
+                                    <span class="h4 ml-8">
+                                        {{stepsStats.totalVehiclesYesterday}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    {{widgets.widget1.detail}}
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+                        <!-- / ALL VEHICLE WIDGET -->
+
+                        <!-- ON TRACK WIDGET -->
+                        <fuse-widget style="cursor: pointer" (click)="gotovehicle()" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">{{widgets.widget2.title}}</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="green-600-fg font-size-72 line-height-72">
+                                        {{stepsStats.totalOnTrack}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget2.data.label}}
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        {{widgets.widget2.data.extra.label}}:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalOnTrackYesterday}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    {{widgets.widget2.detail}}
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+                        <!-- / ON TRACK WIDGET -->
+
+                        <!-- DELAYED WIDGET -->
+                        <fuse-widget style="cursor: pointer" (click)="gotovehicle()" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">{{widgets.widget3.title}}</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="orange-fg font-size-72 line-height-72">
+                                        {{stepsStats.totalDelayed}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget3.data.label}}
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        {{widgets.widget3.data.extra.label}}:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalDelayedYesterday}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    {{widgets.widget3.detail}}
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+                        <!-- /DELAYED WIDGET -->
+
+                        <!-- OVERDUE 4 -->
+                        <fuse-widget style="cursor: pointer" (click)="gotovehicle()" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">{{widgets.widget4.title}}</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="red-fg font-size-72 line-height-72">
+                                        {{stepsStats.totalOverdue}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget4.data.label}}
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        {{widgets.widget4.data.extra.label}}:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalOverdueYesterday}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    {{widgets.widget4.detail}}
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+
+                        </fuse-widget>
+                        <!-- / OVERDUE 4 -->
+
+                        <!-- PROGRESS TRACKER WIDGET -->
+                        <fuse-widget  [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row"
+                            fxFlex="100">
+                            <div class="fuse-widget-front">
+                                <div [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100">
+
+                                    <!-- TIME IN RECON WIDGET -->
+                                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget"
+                                        fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                        <div style="width: 100%; display: table;">
+                                            <div style="display: table-row">
+                                                <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span main">TIME IN RECON</span>
+                                                    <span class="progress-span sub">This month</span>
+                                                </div>
+                                                <div style="display: table-cell;">
+                                                    <span class="progress-span-fig normalF">{{stepsStats.timeInReconByMonth}} Days</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <mat-progress-bar mode="determinate" value="40" class="accent">
+                                        </mat-progress-bar>
+
+                                        <div style="padding-top: 5px;">
+                                            <span class="sub left"> Goal {{stepsStats.timeInReconGoal}} Days </span>
+                                            <span class="sub right">-8.8%</span>
+                                        </div>
+
+                                    </fuse-widget>
+                                    <!-- / TIME IN RECON WIDGET -->
+
+                                    <!-- TIME TO LOT WIDGET -->
+                                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget"
+                                        fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                        <div style="width: 100%; display: table;">
+                                            <div style="display: table-row">
+                                                <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span main">TIME TO LOT</span>
+                                                    <span class="progress-span sub">This month</span>
+                                                </div>
+                                                <div style="display: table-cell;">
+                                                    <span class="progress-span-fig activeF">{{stepsStats.timeToLotByMonth}} Days</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                        <div style="padding-top: 5px;">
+                                            <span class="sub left"> Goal {{stepsStats.timeToLotGoal}}  Days </span>
+                                            <span class="sub right">{{(stepsStats.timeToLotGoal/stepsStats.timeToLotByMonth) * 100}}%</span>
+                                        </div>
+
+
+
+                                    </fuse-widget>
+                                    <!-- / TIME TO LOT WIDGET -->
+
+                                    <!-- COMPLETED VEHICLES WIDGET -->
+                                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget"
+                                        fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                        <div style="width: 100%; display: table;">
+                                            <div style="display: table-row">
+                                                <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span main">COMPLETED VEHICLES</span>
+                                                    <span class="progress-span sub">Last 7 Days</span>
+                                                </div>
+                                                <div style="display: table-cell;">
+                                                    <span class="progress-span-fig overdueF">41</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                        <div style="padding-top: 5px;">
+                                            <span class="sub left"> Goal 80 Vehicles </span>
+                                            <span class="sub right">11.2%</span>
+                                        </div>
+                                    </fuse-widget>
+                                    <!-- / COMPLETED VEHICLES WIDGET -->
+
+                                    <!-- TOTAL RECON WIDGET -->
+                                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget"
+                                        fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                        <div style="width: 100%; display: table;">
+                                            <div style="display: table-row">
+                                                <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span main">Total Recon</span>
+                                                    <span class="progress-span sub">Cost To Lot</span>
+                                                </div>
+                                                <div style="display: table-cell;">
+                                                    <span class="progress-span-fig">$68,386.22</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                        <div style="padding-top: 5px;">
+                                            <span class="sub left">This month</span>
+                                            <span class="sub right">$18,437.54</span>
+                                        </div>
+
+
+                                    </fuse-widget>
+                                    <!-- / TOTAL RECON WIDGET -->
+
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </fuse-widget>
+                        <!-- / PROGRESS TRACKER WIDGET -->
+
+                        <div  style="background: white; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; margin-left: 1%; margin-right: 1%; padding: 20px; margin-bottom: 3%; width: 100%;">
+                            <p style="font-size: 20px;">🔥 Hot Vehicle List</p>
+                            <app-hotlist></app-hotlist>
+                        </div>
+
+
+                        <!-- / TABLE WIDGET -->
+
+                        <fuse-widget  [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                      fxFlex="100" fxFlex.gt-sm="48" style="background: white !important; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; margin-right: 2%;  height: fit-content !important;">
+                            <app-activities></app-activities>
+
+                        </fuse-widget>
+
+                        <!-- RECENT ACTIVITES WIDGET -->
+<!--                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"-->
+<!--                            fxFlex="100" fxFlex.gt-sm="50" style="height: fit-content !important;">-->
+
+<!--                            &lt;!&ndash; Front &ndash;&gt;-->
+<!--                            <div class="fuse-widget-front">-->
+
+<!--                                <div class="px-16 py-8 border-bottom filter-sec" fxLayout="row"-->
+<!--                                    fxLayoutAlign="space-between center">-->
+<!--                                    <div class="h3" style="width: 50%;">{{widgets.activitiesWidget.title}}</div>-->
+<!--                                    <mat-form-field style="width: auto;">-->
+<!--                                        <mat-select class="simplified prog-select-bar" [(ngModel)]="widget6.currentRange"-->
+<!--                                            aria-label="Change range">-->
+<!--                                            <mat-option *ngFor="let range of widgets.widget6.ranges | keys"-->
+<!--                                                [value]="range.key">-->
+<!--                                                {{range.value}}-->
+<!--                                            </mat-option>-->
+<!--                                        </mat-select>-->
+<!--                                    </mat-form-field>-->
+<!--                                </div>-->
+
+<!--                                <mat-list role="list" class="dash-list">-->
+<!--                                    <mat-list-item role="listitem" class="mat-list-font"-->
+<!--                                        *ngFor="let task of widgets.activitiesWidget.tasks">-->
+
+<!--                                        <mat-icon style="margin-right: 10px;">{{task.icon}}</mat-icon>-->
+<!--                                        {{task.name}}-->
+<!--                                        <span [className]="task.tag">-->
+<!--                                            {{task.highlight}}-->
+<!--                                        </span>-->
+
+<!--                                        <mat-divider></mat-divider>-->
+<!--                                    </mat-list-item>-->
+<!--                                </mat-list>-->
+
+
+<!--                            </div>-->
+<!--                            &lt;!&ndash; / Front &ndash;&gt;-->
+
+<!--                        </fuse-widget>-->
+                        <!-- / RECENT ACTIVITES WIDGET -->
+
+                        <!-- TASKS WIDGET -->
+                        <fuse-widget  [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-sm="50" style="background: white !important; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; height: fit-content !important;">
+                                <app-tasks></app-tasks>
+
+                        </fuse-widget>
+                        <!-- / TASKS WIDGET -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                </mat-tab>
+
+                <mat-tab label="Recon Performance">
+
+
+                    <!-- TOOLBAR -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                        <div class="fuse-widget-front">
+                            <div [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100">
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="22">
+                                    <form [formGroup]="form">
+                                        <mat-form-field>
+                                            <input matInput
+                                                   placeholder="Choose a date"
+                                                   [satDatepicker]="picker2"
+                                                   formControlName="date">
+                                            <sat-datepicker #picker2 [rangeMode]="true">
+                                            </sat-datepicker>
+                                            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+                                        </mat-form-field>
+                                    </form>
+                                </fuse-widget>
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="48">
+                                    <mat-button-toggle-group class="button-group-custom" appearance="legacy" name="metrics">
+                                        <mat-button-toggle checked value="today">Today</mat-button-toggle>
+                                        <mat-button-toggle value="yesterday">Yesterday</mat-button-toggle>
+                                        <mat-button-toggle value="lastSevenDays">Last 7 Days</mat-button-toggle>
+                                        <mat-button-toggle value="lastThirtyDays">Last 30 Days</mat-button-toggle>
+                                        <mat-button-toggle value="lastMonth">Last Month</mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                </fuse-widget>
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <button mat-stroked-button>
+                                                    <mat-icon>save</mat-icon>
+                                                    SAVE
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button mat-stroked-button>
+                                                    <mat-icon>share</mat-icon>
+                                                    SHARE
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="print-btn" mat-flat-button>
+                                                    <mat-icon>add</mat-icon>
+                                                    PRINT
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                </fuse-widget>
+                            </div>
+                        </div>
+                    </fuse-widget>
+
+
+                    <!--STATS -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                        <div class="fuse-widget-front">
+                            <div [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100">
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="40">
+                                    <div class="vehicles-container pt-15">
+                                        <p class="vehicle-count orange-fg font-size-72 line-height-60">124</p>
+                                        <p class="vehicle-text">Vehicles In Recon
+                                        <div class="pt-4 pb-4" fxLayout="row" style="width: 100%; height: 26px;">
+                                            <div class="stack-column stack-column-first" fxFlex="{{stackValueFirst}}" style="background-color: green">{{stackValueFirst}}%</div>
+                                            <div class="stack-column" fxFlex="{{stackValueSecond}}" style="background-color: orange">{{stackValueSecond}}%</div>
+                                            <div class="stack-column stack-column-third" fxFlex="{{stackValueThird}}" style="background-color: #f44336">{{stackValueThird}}%</div>
+                                        </div>
+                                        <table class="legend-tab">
+                                            <tr>
+                                                <td><div class="stack-legend" style="background-color: green"></div></td>
+                                                <td> 1-3 Days</td>
+                                                <td><div class="stack-legend" style="background-color: orange"></div></td>
+                                                <td> 4-6 Days</td>
+                                                <td><div class="stack-legend" style="background-color: #f44336"></div></td>
+                                                <td> 7+ Days</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </fuse-widget>
+
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="60">
+                                    <div class="tables-container">
+                                        <table mat-table [dataSource]="reconsDataSource">
+
+
+                                            <ng-container matColumnDef="phase">
+                                                <th style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> PHASE </th>
+                                                <td mat-cell *matCellDef="let element">	<mat-icon class="recons-tab-icon">chrome_reader_mode</mat-icon> {{element.phase}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="vehicles">
+                                                <th style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> VEHICLES </th>
+                                                <td mat-cell class="orange-fg" style="font-weight: bold;" *matCellDef="let element"> {{element.vehicles}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="timeInRecon">
+                                                <th style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> TIME IN RECON </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <div  fxLayout="row" style="width: 100%; height: 8px;">
+                                                        <div class="stack-column stack-column-first" fxFlex="{{element.timeInRecon.oneToThree}}" style="background-color: green"></div>
+                                                        <div class="stack-column" fxFlex="{{element.timeInRecon.fourToSix}}" style="background-color: orange"></div>
+                                                        <div class="stack-column stack-column-third" fxFlex="{{element.timeInRecon.sevenPlus}}" style="background-color: #f44336"></div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="symbol">
+                                                <th style="font-weight: bold; color: black" style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> TRENDING </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="time">
+                                                <th style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> AVERAGE TIME </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <span
+                                                            [ngClass]="{
+                                                                'Active': element.time <= 3,
+                                                                'Deplayed': element.time <= 6,
+                                                                'Overdue': element.time >= 7
+                                                              }">
+                                                        {{element.time}} DAYS
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Symbol Column -->
+                                            <ng-container matColumnDef="id">
+                                                <th style="font-weight: bold; color: black" mat-header-cell *matHeaderCellDef> ACTION </th>
+                                                <td mat-cell *matCellDef="let element">  <button mat-stroked-button>VIEW</button> </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="reconsDisplayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: reconsDisplayedColumns;"></tr>
+                                        </table>
+                                    </div>
+                                </fuse-widget>
+                            </div>
+                        </div>
+                    </fuse-widget>
+                    <!-- TRACKER -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                        <div class="fuse-widget-front">
+                            <div [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100">
+
+                                <!-- TIME IN RECON WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span main">TIME IN RECON</span>
+                                                <span class="progress-span sub">This month</span>
+                                            </div>
+                                            <div style="display: table-cell;">
+                                                <span class="progress-span-fig normalF">9.6 Days</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40" class="accent"></mat-progress-bar>
+
+                                    <div style="padding-top: 5px;">
+                                        <span class="sub left"> Goal 8 Days </span>
+                                        <span class="sub right">-8.8%</span>
+                                    </div>
+
+                                </fuse-widget>
+                                <!-- / TIME IN RECON WIDGET -->
+
+                                <!-- TIME TO LOT WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span main">TIME TO LOT</span>
+                                                <span class="progress-span sub">This month</span>
+                                            </div>
+                                            <div style="display: table-cell;">
+                                                <span class="progress-span-fig activeF">1.2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                    <div style="padding-top: 5px;">
+                                        <span class="sub left"> Goal 8 Days </span>
+                                        <span class="sub right">-8.8%</span>
+                                    </div>
+
+
+
+                                </fuse-widget>
+                                <!-- / TIME TO LOT WIDGET -->
+
+                                <!-- COMPLETED VEHICLES WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span main">COMPLETED VEHICLES</span>
+                                                <span class="progress-span sub">Last 7 Days</span>
+                                            </div>
+                                            <div style="display: table-cell;">
+                                                <span class="progress-span-fig overdueF">41</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                    <div style="padding-top: 5px;">
+                                        <span class="sub left"> Goal 80 Vehicles </span>
+                                        <span class="sub right">11.2%</span>
+                                    </div>
+                                </fuse-widget>
+                                <!-- / COMPLETED VEHICLES WIDGET -->
+
+                                <!-- TOTAL RECON WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span main">Total Recon</span>
+                                                <span class="progress-span sub">Cost To Lot</span>
+                                            </div>
+                                            <div style="display: table-cell;">
+                                                <span class="progress-span-fig">$68,386.22</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+                                    <div style="padding-top: 5px;">
+                                        <span class="sub left">This month</span>
+                                        <span class="sub right">$18,437.54</span>
+                                    </div>
+
+
+                                </fuse-widget>
+                                <!-- / TOTAL RECON WIDGET -->
+
+                            </div>
+                        </div>
+                    </fuse-widget>
+                    <!-- / TRACKER -->
+
+                    <!-- ACTIVE & COMPLETED VEHICLES WIDGET -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                        <div class="fuse-widget-front">
+                            <div class="position-relative p-24" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="column" fxLayoutAlign="start start">
+                                    <span class="h2">Active & Completed Vehicles</span>
+                                </div>
+                            </div>
+
+                            <div class="position-relative h-368 pb-16">
+                                <canvas baseChart
+                                    [datasets]="widgets.activeCompletedWidget.datasets[activeCompletedWidgetSelectedDay]"
+                                    [labels]="widgets.activeCompletedWidget.labels"
+                                    [colors]="widgets.activeCompletedWidget.colors"
+                                    [options]="widgets.activeCompletedWidget.options"
+                                    [chartType]="widgets.activeCompletedWidget.chartType">
+                                </canvas>
+                            </div>
+                        </div>
+                    </fuse-widget>
+                    <!-- / ACTIVE & COMPLETED VEHICLES WIDGET -->
+
+                    <!-- RECON COST WIDGET -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                        <div class="fuse-widget-front">
+                            <div class="position-relative" style="padding: 14px;" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div fxLayout="column" fxLayoutAlign="start start">
+                                    <span>RECON COST AVERAGE</span>
+                                </div>
+                            </div>
+
+                            <div class="position-relative pb-16">
+
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="20">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span sub">Mechanical</span>
+                                                <span class="progress-span main pb-12">$748.54</span>
+                                                <span class="progress-span sub">Per Vehicle</span>
+                                                <span class="progress-span main pb-12">$92,818.96</span>
+                                                <span class="progress-span main">Total Mechanical</span>
+                                                <span class="progress-span sub">62.50%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40" class="accent"></mat-progress-bar>
+
+                                </fuse-widget>
+                                <!-- / TIME IN RECON WIDGET -->
+
+                                <!-- TIME TO LOT WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="20">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <span class="progress-span sub">Body Shop</span>
+                                            <span class="progress-span main pb-12">$331.11</span>
+                                            <span class="progress-span sub">Per Vehicle</span>
+                                            <span class="progress-span main pb-12">$40,933.64</span>
+                                            <span class="progress-span main">Total Body Shop</span>
+                                            <span class="progress-span sub">27.21%</span>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+
+
+
+                                </fuse-widget>
+                                <!-- / TIME TO LOT WIDGET -->
+
+                                <!-- COMPLETED VEHICLES WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="20">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                <span class="progress-span sub">Sublet</span>
+                                                <span class="progress-span main pb-12">$150.00</span>
+                                                <span class="progress-span sub">Per Vehicle</span>
+                                                <span class="progress-span main pb-12">$18,600.00</span>
+                                                <span class="progress-span main">Total Sublet</span>
+                                                <span class="progress-span sub">12.24%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                                </fuse-widget>
+                                <!-- / COMPLETED VEHICLES WIDGET -->
+
+                                <!-- TOTAL RECON WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="20">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span sub">Detail</span>
+                                                    <span class="progress-span main pb-12">$1,187.12</span>
+                                                    <span class="progress-span sub">Per Vehicle</span>
+                                                    <span class="progress-span main pb-12">$147,202.88</span>
+                                                    <span class="progress-span main">Total Detail</span>
+                                                    <span class="progress-span sub">100%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                                </fuse-widget>
+                                <!-- / TOTAL RECON WIDGET -->
+
+                                <!-- TOTAL RECON WIDGET -->
+                                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="20">
+
+                                    <div style="width: 100%; display: table;">
+                                        <div style="display: table-row">
+                                            <div style="width: 150px; display: table-cell;">
+                                                    <span class="progress-span sub">Total Recon</span>
+                                                    <span class="progress-span main pb-12">$1,187.12</span>
+                                                    <span class="progress-span sub">Per Vehicle</span>
+                                                    <span class="progress-span main pb-12">$147,202.88</span>
+                                                    <span class="progress-span main">Total Recon Cost</span>
+                                                    <span class="progress-span sub">100%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                                </fuse-widget>
+                                <!-- / TOTAL RECON WIDGET -->
+
+                            </div>
+                        </div>
+                    </fuse-widget>
+                    <!-- / RECON COST WIDGET -->
+
+                </mat-tab>
+
+
+
+                <mat-tab label="Team Members">
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                        [@animateStagger]="{value:'50'}">
+                        
+                        <!-- WIDGET 11 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row"
+                            fxFlex="100">
+
+                            
+                     
+
+                            <!-- Front -->
+                            <div  class="fuse-widget-front">
+                                    <div *ngIf="isLoading" id="align-content"  >              
+                                            <br><br><br><br><br><br><br><br><br>
+                                                <div [class.tablespinner]="isLoading" class="d-flex justify-content-center align-items-center">  </div>
+                                                 <br>              
+                                                <p class="spinnerText" class="d-flex justify-content-center align-items-center">Loading Team Members</p>
+                                     </div>         
+                                    <!-- table message -->
+                                    <div *ngIf="showTableMessage" class="d-flex justify-content-center align-items-center">
+                                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                                        <p style="text-align:center;"  > {{this.tableMessage}}</p>
+                                        <p style="text-align:center;" *ngIf="showLink" >Error Retrieving Table Data: <br> <a (click)='this.ngOnInit()'>Try Again</a></p>
+                                    </div>
+                                <!-- table div -->
+                                <div *ngIf="showTable" class="p-24 mb-8 border-bottom" fxLayout="row"
+                                    fxLayoutAlign="space-between center">
+                                    <div class="h2">{{widgets.widget11.title}}</div>
+                                    <div class="text-boxed accent m-0">
+                                        {{this.membersCount}}
+                                        members
+                                    </div>
+                                </div>
+
+                                <mat-table *ngIf="showTable"  #table [dataSource]="this.teamMembers">
+
+                                    <!-- Avatar Column -->
+                                    <ng-container matColumnDef="avatar">
+                                        <mat-header-cell fxFlex="96px" *matHeaderCellDef></mat-header-cell>
+                                        <mat-cell fxFlex="96px" *matCellDef="let contact">
+                                                <img class="avatar" *ngIf="contact.profile.profilePic; else noImg" [alt]="contact.profile.name"
+                                                [src]="contact.profile.profilePic" />
+                                            <ng-template #noImg>
+                                                    <img class="avatar" src="../../../../../assets/images/avatars/profile.jpg" alt="">
+                                            </ng-template>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="name">
+                                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                                        <mat-cell *matCellDef="let contact">
+                                            <p class="text-truncate font-weight-600">{{contact.profile.fname}}
+                                                {{contact.profile.sname}}</p>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="position">
+                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Position
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+                                            <p class="position text-truncate">
+                                                {{contact.profile.role}}
+                                            </p>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Office Column -->
+                                    <ng-container matColumnDef="office">
+                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Office
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+                                            <p class="office text-truncate">
+                                                {{contact.company.name}}
+                                            </p>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Email Column -->
+                                    <ng-container matColumnDef="email">
+                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+                                            <p class="email text-truncate">
+                                                {{contact.profile.email}}
+                                            </p>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Phone Column -->
+                                    <ng-container matColumnDef="phone">
+                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Phone
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+                                            <p class="phone text-truncate">
+                                                {{contact.profile.contact}}
+                                            </p>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <mat-header-row *matHeaderRowDef="widgets.widget11.table.columns"></mat-header-row>
+                                    <mat-row *matRowDef="let contact; columns: widgets.widget11.table.columns;">
+                                    </mat-row>
+                                </mat-table>
+                            </div>
+                            <!-- / Front -->
+
+                        </fuse-widget>
+                        <!-- / WIDGET 11 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="project-dashboard-right-sidebar-1" position="right" lockedOpen="gt-md">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content">
+
+            <!-- WIDGET GROUP -->
+            <div class="widget-group" fxLayout="column" fxFlex="100" [@animateStagger]="{value:'50'}">
+
+
+                <fuse-widget *ngIf="hotLists.length > 0" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front primary">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h4" fxLayout="row" fxLayoutAlign="start center">
+                                Annoucements
+                            </div>
+
+                            <div>
+<!--                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">-->
+<!--                                    <mat-icon class="secondary-text">more_vert</mat-icon>-->
+<!--                                </button>-->
+
+<!--                                <mat-menu #moreMenu="matMenu">-->
+<!--                                    <button mat-menu-item aria-label="Flip widget">-->
+<!--                                        Details-->
+<!--                                    </button>-->
+<!--                                </mat-menu>-->
+                            </div>
+                        </div>
+
+                        <div class="p-16 pb-32">
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+
+                                <span style="text-align: center;">
+                                    " {{hotLists[displayedIndex].announcement}} "
+                                </span>
+
+                            </div>
+                            <div>
+
+                                <div class="pt-20 pb-10" style="text-align: end;">
+                                    <span>
+                                        {{hotLists[displayedIndex].endDate | date:'M/d/yy, h:mm a'}}
+                                    </span>
+                                </div>
+
+                                <div class="pt-20 pb-10" fxLayout="row">
+
+
+
+<!--                                    <img class="avatar" src="{{widgets.annoucementWidget.url}}">-->
+
+                                    <span>
+                                        {{hotLists[displayedIndex].createdByUserName}}
+                                        <br />
+<!--                                        {{widgets.annoucementWidget.section}}-->
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+
+                <fuse-widget *ngIf="hotLists.length === 0" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front primary">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h4" fxLayout="row" fxLayoutAlign="start center">
+                                Annoucements
+                            </div>
+
+                            <div>
+                                <!--                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">-->
+                                <!--                                    <mat-icon class="secondary-text">more_vert</mat-icon>-->
+                                <!--                                </button>-->
+
+                                <!--                                <mat-menu #moreMenu="matMenu">-->
+                                <!--                                    <button mat-menu-item aria-label="Flip widget">-->
+                                <!--                                        Details-->
+                                <!--                                    </button>-->
+                                <!--                                </mat-menu>-->
+                            </div>
+                        </div>
+
+                        <div class="p-16 pb-32">
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+
+                                <span style="text-align: center;">
+                                    " No announcements"
+                                </span>
+
+                            </div>
+                            <div>
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+
+                        <div class="pl-16 pr-8 pt-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h4" fxLayout="row" fxLayoutAlign="start center">
+                                YOU HAVE
+                            </div>
+
+                            <div>
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">
+                                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #moreMenu="matMenu">
+                                    <button mat-menu-item aria-label="Flip widget">
+                                        Details
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="pl-16 pr-16 pt-15 pb-32">
+
+                            <div fxLayout="row">
+
+                                <div LayoutAlign="start center">
+
+                                    <p *ngFor="let notifications of widgets.pendingWidget.notifications">
+                                        {{ notifications.msg }}</p>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+
+
+                <!-- NOW WIDGET -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h3">{{dateNow | date: 'EEEE, HH:mm:ss'}}</div>
+
+                            <div>
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #moreMenu="matMenu">
+                                    <button mat-menu-item aria-label="Flip widget">
+                                        Details
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="p-16 pb-24" fxLayout="column" fxLayoutAlign="center center">
+                            <div class="h1 secondary-text">
+                                <span>{{dateNow | date: 'MMMM'}}</span>
+                            </div>
+
+                            <div class="font-size-72 line-height-88 secondary-text font-weight-400">
+                                {{dateNow | date: 'd'}}
+                            </div>
+
+                            <div class="h1 secondary-text">
+                                <span>{{dateNow | date: 'y'}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+                <!-- / NOW WIDGET -->
+
+                <!-- WEATHER WIDGET -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h4" fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon class="secondary-text mr-8">place</mat-icon>
+                                {{weatherLocation}}
+                            </div>
+
+                            <div>
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">
+                                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #moreMenu="matMenu">
+                                    <button mat-menu-item aria-label="Flip widget">
+                                        Details
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <mat-icon fontSet="meteocons"
+                                    [fontIcon]="getIconStr(this.weatherIcon)"
+                                    class="icon s-40 secondary-text mr-16"></mat-icon>
+                                <span class="mat-display-2 m-0 font-weight-300 secondary-text">
+                                    {{weatherTemp}}
+                                </span>
+                                <span class="font-size-48 font-weight-300 hint-text text-super ml-8">°</span>
+                                <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding">F</span>
+                            </div>
+                        </div>
+
+                        <div class="p-16 by" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon fontSet="meteocons" fontIcon="icon-windy" class="s-16 secondary-text mr-8">
+                                </mat-icon>
+                                <span class="secondary-text ml-5">{{weatherSpeed}}</span>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon fontSet="meteocons" fontIcon="icon-compass" class="s-16 secondary-text mr-8">
+                                </mat-icon>
+                                <span>
+                                    {{weatherCountry}}
+                                </span>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon fontSet="meteocons" fontIcon="icon-rainy" class="s-16 secondary-text mr-8">
+                                </mat-icon>
+                                <span>
+                                    {{weatherHumidity}}
+                                </span>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+                <!-- / WEATHER WIDGET -->
+
+
+                <fuse-widget *ngIf="quotes.length > 0" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front accent">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h4" fxLayout="row" fxLayoutAlign="start center">
+                                Quote Of The Day
+                            </div>
+
+<!--                            <div>-->
+<!--                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="more">-->
+<!--                                    <mat-icon class="secondary-text">more_vert</mat-icon>-->
+<!--                                </button>-->
+
+<!--                                <mat-menu #moreMenu="matMenu">-->
+<!--                                    <button mat-menu-item aria-label="Flip widget">-->
+<!--                                        Details-->
+<!--                                    </button>-->
+<!--                                </mat-menu>-->
+<!--                            </div>-->
+                        </div>
+
+                        <div class="p-16 pb-32">
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+
+                                <span style="text-align: center;">
+                                    " {{quotes[0].announcement}} "
+                                </span>
+
+                            </div>
+                            <div>
+
+
+                                <div class="pt-40 pb-10" fxLayout="row">
+
+<!--                                    <img class="avatar" src="{{widgets.quoteWidget.url}}">-->
+                                    <span>
+                                        {{quotes[0].createdByUserName}}
+                                        <br />
+<!--                                        {{widgets.quoteWidget.section}}-->
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+
+
+            </div>
+            <!-- / WIDGET GROUP -->
+
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+</div>

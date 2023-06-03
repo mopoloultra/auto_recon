@@ -1,0 +1,267 @@
+::ng-deep .mat-tab-label{
+  min-width: 90px !important;
+  font-size: 10px !important;
+}
+
+
+.car-image{
+  max-width: 87% !important;
+}
+
+
+::ng-deep .mat-badge-content {
+  font-size: 8px !important;
+  width: auto;
+  display: grid;
+  min-width: 5px;
+  min-height: 5px;
+  text-align: center;
+  align-items: center;
+  padding-top: -10px;
+  right: -22px;
+  background-color: #c0c0c0 !important;
+  color: #1f2a30 !important;
+}
+
+::ng-deep .mat-ink-bar{
+  background-color: #039be5 !important;
+}
+
+.page-title{
+  font-size: 25px;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.view-icon{
+  font-size: 18px !important;
+}
+
+.view-btn{
+  font-size: 10px;
+}
+
+.watch-icon{
+  color: #ffcb53;
+  font-size: 18px !important;
+}
+
+.mat-button-toggle{
+  color: #000 !important;
+}
+
+.mat-tab-label .mat-tab-label-content{
+  color: #000 !important;
+}
+
+::ng-deep  .mat-button-toggle-group{
+  box-shadow: unset !important;
+  border: 1px solid #c0c0c0;
+}
+
+.vehicle-card{
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  border-left: 10px solid orange;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+}
+
+
+.vehicle-card-delayed{
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  border-left: 10px solid orange;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+}
+
+.vehicle-card-overdue{
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  border-left: 10px solid #f44336;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+}
+
+.vehicle-card-incoming{
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  border-left: 10px solid #03a9f4;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+}
+
+
+.vehicle-card-ontrack{
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  border-left: 10px solid #4caf50;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+}
+
+
+.vehicle-details{
+  font-size: 13px;
+  padding-top: 12px;
+  padding-left: 10px;
+
+  td{
+    padding-bottom: 7px;
+  }
+
+}
+
+.vehicle-other-info{
+  padding-top: 20px;
+}
+
+.vehicle-items {
+  display: flex;
+  justify-content: space-between;
+}
+
+.badges{
+  padding: 3px 6px 3px 6px;
+  border-radius: 2px;
+  font-size: 15px;
+}
+.inspections-badge{
+  background-color: #5a5a5a;
+  color: #FFFFFF;
+
+}
+
+.ros-badge{
+  background-color: orange;
+  color: #000000;
+
+}
+
+.est-badge{
+  background-color: #2a5cff;
+  color: #ffffff;
+
+}
+
+.recalls-badge{
+  background-color: #ff3e31;
+  color: #ffffff;
+
+}
+
+.vehicle-recents-activity{
+  margin-top: 2%;
+  margin-bottom:  5%;
+  background: #e2e2e2;
+  padding: 10px;
+}
+
+.recent-name{
+  font-weight: bold;
+  font-style: italic;
+  font-size: 11px;
+  line-height: 1px;
+}
+
+.recent-time{
+  color: #2e2e2e;
+  font-size: 8px;
+  line-height: 1px;
+}
+
+.add-btn-icon{
+  color: #ff3e31 !important;
+}
+
+.new-icon{
+  font-size: 10px;
+  min-height: unset !important;
+  min-width: unset !important;
+  height: unset !important;
+  width: unset !important;
+
+}
+
+.new{
+  background: #CCCCCC;
+}
+
+.sold{
+  background: #FF3366;
+}
+
+.certified{
+  background: green;
+}
+
+.mat-paginator {
+  background: #F5F5F5 !important;
+}
+
+.action-btn{
+  font-size: 10px;
+  color: #FFFFFF;
+  text-decoration: none !important;
+  cursor: pointer;
+  padding: 1.5px 10px 1.5px 10px !important;
+  border-radius: 3px;
+}
+
+a{
+  text-decoration: none !important;
+}
+
+a:hover{
+  text-decoration: none !important;
+}
+
+.action-btn a:hover{
+  text-decoration: none !important;
+}
+
+
+.actions .action-btn:not(:last-child){
+  margin-right:10px;
+}
+
+.cost-container{
+  padding-left: 10px;
+}
+
+.prog-select-bar{
+  background-color: #CCCCCC;
+  padding: 10px;
+  color:#4caf50 !important;
+  border-radius: 3px;
+}
+
+::ng-deep .mat-progress-bar-fill::after{
+  background-color: green !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background-color: #80cb7d !important;
+}
+
+.select-form{
+  width: 100% !important;
+}
+
+.chart-container{
+  padding-top: 15%;
+  width: 180px;
+  //height: 180px;
+}
+

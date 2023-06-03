@@ -1,0 +1,26 @@
+<div *ngIf="noTodosData" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-todos-text hint-text">There are no todos!</span>
+</div>
+
+<div *ngIf="loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <mat-spinner [diameter]="40"></mat-spinner>
+    <span class="no-todos-text hint-text">Loading todo list</span>
+</div>
+<div  style="background: white; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; margin-left: 1%; margin-right: 1%; padding: 10px; margin-top: 1%;">
+    <mat-form-field class="example-full-width" style="width: 100% !important;">
+        <span matPrefix> <mat-icon matSuffix>search</mat-icon></span>
+        <input type="text" matInput placeholder="Search tasks" [(ngModel)]="searchText" autocomplete="off">
+
+    </mat-form-field>
+</div>
+<div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
+    <todo-list-item class="todo-list-item has-handle"
+                    *ngFor="let todo of todos | filter:searchText " [todo]="todo"
+                    ngxDraggable
+                    [model]="todo"
+                    (click)="readTodo(todo.id)"
+                    [ngClass]="{'current-todo':todo?.id == currentTodo?.id}"
+                    matRipple
+                    [@animate]="{value:'*',params:{y:'100%'}}">
+    </todo-list-item>
+</div>

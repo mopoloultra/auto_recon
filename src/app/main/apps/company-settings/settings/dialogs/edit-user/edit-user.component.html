@@ -1,0 +1,111 @@
+<div mat-dialog-title class="flex-container">
+
+    <a icon-only class="closeButton close-icon" (click)="close()">
+        <mat-icon slot="">close</mat-icon>
+    </a>
+</div>
+<h2 mat-dialog-title>Admin Details</h2>
+<hr>
+<mat-dialog-content >
+
+    <p class="profile-heding">
+        Profile Image
+    </p>
+    <br>
+    <img class="profile-img" *ngIf="userData.profile.profilePic; else noimg" [src]="imageConvert(userData.profile.profilePic)" width="50" height="50"  >
+    <ng-template #noimg>
+        <img class="profile-img"  src="../../../../../assets/images/avatars/profile.jpg" width="100" height="100"  >
+
+    </ng-template>
+    <br>
+
+    <form [formGroup]="editRole" >
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>First name</mat-label>
+                        <input matInput formControlName="firstName" >
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Last name</mat-label>
+                        <input matInput  formControlName="lastName" >
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    </mat-form-field>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contact</mat-label>
+                        <input matInput  formControlName="contact" >
+                        <mat-icon matSuffix class="secondary-text">local_phone</mat-icon>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput  formControlName="email" >
+                        <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    </mat-form-field>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Address</mat-label>
+                        <input matInput  formControlName="address" >
+                        <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Address 2</mat-label>
+                        <input matInput  formControlName="address2" >
+                        <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                    </mat-form-field>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>State / City</mat-label>
+                        <input matInput  formControlName="city" >
+                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Zip Code</mat-label>
+                        <input matInput formControlName="zip" >
+                        <mat-icon matSuffix class="secondary-text">local_post_office</mat-icon>
+                    </mat-form-field>
+                </td>
+            </tr>
+
+        </table>
+
+
+    </form>
+
+
+</mat-dialog-content>
+<hr>
+<br>
+<mat-dialog-actions style="align-items:center;">
+    <button *ngIf="!isLoading" color="accent" class="submit-button" mat-raised-button (click)="updateDetails()">UPDATE</button>
+    <mat-spinner style="margin-left: auto; margin-right: auto; display: block;" *ngIf="isLoading" color="accent" [diameter]="40"></mat-spinner>
+</mat-dialog-actions>

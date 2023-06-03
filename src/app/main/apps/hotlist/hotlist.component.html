@@ -1,0 +1,84 @@
+<div *ngIf="loading">
+    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+        <mat-spinner [diameter]="40"></mat-spinner>
+        <h3>Loading Vehciles</h3>
+    </div>
+</div>
+
+<div [hidden]="loading">
+    <div [hidden]="noUsersData">
+        <mat-form-field style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+        </mat-form-field>
+        <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td (click)="view(element.id)" style="cursor: pointer" mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="stockNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock Number </th>
+                <td (click)="view(element.id)" style="cursor: pointer"  mat-cell *matCellDef="let element"> {{element.stockNumber}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="vehicle">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehvile </th>
+                <td (click)="view(element.id)" style="cursor: pointer" mat-cell *matCellDef="let element"> {{element.vehicle}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="VIN">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> VIN </th>
+                <td (click)="view(element.id)" style="cursor: pointer" mat-cell *matCellDef="let element"> {{element.VIN}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="daysInRecon">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Days in Recon </th>
+                <td (click)="view(element.id)" style="cursor: pointer" mat-cell *matCellDef="let element"> {{element.daysInRecon}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
+                <td (click)="view(element.id)" style="cursor: pointer"  mat-cell *matCellDef="let element"> {{element.dueDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="step">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Step </th>
+                <td (click)="view(element.id)" style="cursor: pointer"  mat-cell *matCellDef="let element"> {{element.step}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td (click)="view(element.id)" style="cursor: pointer"  mat-cell *matCellDef="let element">
+                  <span class="status-badge"
+                        [ngClass]="
+                          {
+                          'red-A700': element.status === 'Overdue',
+                          'orange-800': element.status ==='Delayed' ,
+                          'green-900': element.status === 'onTrack'}">
+                        {{element.status}}
+                    </span>
+                </td>
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+
+    <div [hidden]="!noUsersData">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+            <h3>No Vehciles  found</h3>
+        </div>
+    </div>
+
+</div>

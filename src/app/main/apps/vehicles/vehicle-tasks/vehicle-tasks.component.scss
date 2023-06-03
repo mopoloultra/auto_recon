@@ -1,0 +1,41 @@
+
+
+.show-info{
+  display: block;
+}
+
+.hide-info{
+  display: none;
+}
+
+.non-completed{
+  text-decoration: none;
+}
+
+.completed-task{
+  text-decoration: line-through;
+}
+
+
+.hide {
+  display: none !important;
+}
+
+.myDIV:hover + .hide {
+  display: block !important;
+
+}
+
+
+a.return-link{
+  font-size: 16px;
+  color: #000000;
+  padding: 10px;
+  text-decoration: none;
+  float: left;
+}
+
+a:hover{
+  text-decoration: none !important;
+}
+

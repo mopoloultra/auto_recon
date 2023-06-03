@@ -1,0 +1,94 @@
+.container {
+  position: relative;
+  width: 100%;
+
+}
+
+.container img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #FFFFFF;
+}
+
+
+.container .btn {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  background-color: #fff;
+  color: #999999;
+  width: 50px;
+  height: 30px;
+  opacity: 0;
+  transition: .5s ease;
+  padding-top: 3px;
+  padding-left: 2px;
+
+
+}
+
+
+
+.container:hover .btn {
+  opacity: 1;
+}
+
+.image-grids{
+  width: 50vw;
+  display: flex;
+  overflow-x: scroll;
+  height: 160px;
+  scroll-behavior: smooth;
+  margin-left: 10vw;
+  justify-content: center;
+
+}
+
+.immage-thumbnail{
+  //width: 200px !important;
+  cursor: pointer;
+
+
+
+}
+
+
+
+.thumbnail-container{
+  display: inline-flex;
+}
+
+.arrow-btn{
+  width: 30px;
+  background: white;
+  color: #0F4C81;
+  height: 160px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+  opacity: 0.8;
+  cursor: pointer;
+
+}
+
+.display-img{
+  border-radius: 6px;
+  width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
+
+.left-btn{
+  left: 25vw;
+  position: absolute;
+}
+
+.right-btn{
+  right: 25vw;
+  position: absolute;
+}
+
+
+

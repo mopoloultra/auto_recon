@@ -1,0 +1,19 @@
+<div mat-dialog-title>
+    <p style="text-align: center;">Update Vehicle Phase</p>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+        <button (click)="onNoClick()" class="primary-300-fg" mat-icon-button><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+
+<div style="margin-top: -30px !important;" mat-dialog-content>
+    <mat-form-field style="width: 100% !important;" appearance="outline">
+        <mat-select (selectionChange)="getSelectedPhase($event)" required>
+            <mat-option>-- None --</mat-option>
+            <mat-option *ngFor="let phase of data.phases" value="{{phase.id}}">{{phase.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<br>
+<button (click)="update()" *ngIf="!loader" [disabled]="disableSubmit" style="margin-left: auto; margin-right: auto; display: block;" mat-raised-button color="accent">SUBMIT</button>
+<mat-spinner style="margin-left: auto; margin-right: auto; display: block;" *ngIf="loader" [diameter]="40"> </mat-spinner>

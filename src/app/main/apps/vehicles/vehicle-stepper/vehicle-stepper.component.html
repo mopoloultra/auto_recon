@@ -1,0 +1,13 @@
+<!--<ul class="step-menu">-->
+<!--    <li *ngFor="let steps of phases; let i = index" role="button"  [ngStyle]="{'z-index': (i * -100) + (phases.length * 100)}" [ngClass]="{'complete': steps.isCompleted, 'current': steps.isCurrent}" (click)="updatePhaseFromSteps(steps.stepName,steps.stepID,i)">-->
+<!--        {{i + 1}}. {{steps.stepName}}-->
+<!--    </li>-->
+<!--</ul>-->
+
+<ul id="progress">
+    <li *ngFor="let steps of phases; let i = index"  [ngStyle]="{'z-index': (i * -100) + (phases.length * 100)}" [ngClass]="{'complete': steps.isCompleted, 'current': steps.isCurrent}" (click)="updatePhaseFromSteps(steps.stepName,steps.stepID,i)">
+       <span class="number">{{i + 1}}.</span>  {{steps.stepName}}
+    </li>
+
+</ul>
+

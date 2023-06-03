@@ -1,0 +1,25 @@
+<h3 style="text-align: center;" mat-dialog-title>Add Role</h3>
+
+<div style="display: flex; flex-direction: row;">
+                <form class=" p-24 mr-24" fxLayout="column" fxLayoutAlign="start"
+                      name="form" [formGroup]="adminRoleForm" (ngSubmit)="createRole(form)" #form="ngForm" >
+
+                    <div class="h2 mb-24">Add Admin Role</div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" >
+
+                        <mat-form-field appearance="outline" fxFlex="100">
+                            <mat-label>Role</mat-label>
+                            <input matInput formControlName="role" >
+                            <mat-icon matSuffix class="secondary-text">card_membership</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <button type="submit"  mat-raised-button color="accent" class="submit-button mb-24" aria-label="LOGIN"
+                            [disabled]="adminRoleForm.invalid || showSpinner" [class.spinner]="showSpinner">
+                        Create Role
+                    </button>
+
+                </form>
+</div>

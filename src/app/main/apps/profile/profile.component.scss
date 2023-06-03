@@ -1,0 +1,90 @@
+@import "src/@fuse/scss/fuse";
+
+#chat {
+
+    .center {
+        padding: 32px !important;
+        max-width: 1400px;
+        margin: 0 auto;
+
+        .upload-container{
+            //padding-left: 5px; padding-right: 5px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+
+            ::ng-deep.dropify-wrapper{
+                width: 100px !important;
+                height: 40px !important;
+                border: none !important;
+                color: #fff !important;
+                border-radius: 6px !important;
+                background-color: #03a9f4 !important;
+
+            }
+
+            ::ng-deep .dropify-wrapper:hover {
+                background-size: unset !important;
+                background-image: unset !important;
+                -webkit-animation: unset !important;
+                animation: unset !important;
+            }
+
+            ::ng-deep .dropify-wrapper .dropify-message p {
+                margin: 0px 0 0 0 !important;
+            }
+        }
+
+
+        @include media-breakpoint('lt-lg') {
+            padding: 0 !important;
+        }
+
+        .content-card {
+            position: relative;
+            display: flex;
+            flex: 1;
+            border-radius: 8px;
+
+            .mat-sidenav-container {
+                display: flex;
+                flex: 1;
+                width: 100%;
+
+                > .mat-sidenav-content,
+                > .mat-drawer-content {
+                    display: flex;
+                    flex: 1 1 auto;
+                    min-height: 100%;
+                    height: auto;
+                }
+
+                > .mat-drawer-content {
+                    max-width: 100%;
+                }
+
+                mat-sidenav {
+                    display: flex;
+                    flex-direction: column;
+                    width: 400px;
+                    max-width: 90%;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+
+    table.a{
+        table-layout: fixed; width: auto;
+        white-space: nowrap;
+    }
+    table.b{
+        table-layout: fixed; width: auto;
+        white-space: nowrap;
+    }
+    td {
+        padding: 10px;
+        width: auto;
+      }
+}

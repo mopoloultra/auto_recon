@@ -1,0 +1,40 @@
+
+<div mat-dialog-title class="flex-container">
+
+    <a icon-only class="closeButton close-icon" (click)="close()">
+        <mat-icon slot="">close</mat-icon>
+    </a>
+</div>
+
+
+<div mat-mat-dialog-content class="content">
+
+    <!-- <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row"> -->
+
+    <form class="mr-24 pr-20 pl-20 pb-20" fxLayout="column" fxLayoutAlign="start"
+          fxFlex="1 0 auto" name="form" [formGroup]="editRoleForm" (ngSubmit)="editRole(form)" #form="ngForm">
+
+        <div class="mat-header h2 mb-24 modalTitle" >Edit Role </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" style="margin-bottom: 20px;">
+
+            <mat-form-field appearance="outline" fxFlex="" class="pr-4">
+                <mat-label>Role</mat-label>
+                <input matInput formControlName="role"  required>
+                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                <mat-error>Role is required!</mat-error>
+            </mat-form-field>
+
+
+        </div>
+
+        <button type="submit" mat-raised-button color="accent" class="submit-button mb-14" aria-label="LOGIN" [class.spinner]="showSpinner"
+                [disabled]="editRoleForm.invalid || showSpinner" >
+            Edit Role
+        </button>
+
+    </form>
+
+    <!--  </div>  -->
+
+</div>

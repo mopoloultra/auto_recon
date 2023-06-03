@@ -1,0 +1,23 @@
+<div mat-dialog-title>
+    <p>Confirm</p>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+        <button (click)="onNoClick()" class="primary-300-fg" mat-icon-button><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+<div style="margin-top: -30px !important;" mat-dialog-content>
+    <p>Are you sure you want to update vehicle phase? </p>
+    <p> <span style="font-weight: bold;">{{data.oldPhase}}</span> to <span style="font-weight: bold;">{{data.newPhase}}</span></p>
+
+</div>
+
+<div mat-dialog-actions fxLayoutAlign="flex-end">
+    <mat-spinner *ngIf="loader" [diameter]="40"> </mat-spinner>
+    <div *ngIf="!loader" >
+        <button (click)="onNoClick()" class="primary-300-fg"  mat-button >CANCEL</button>
+        <button (click)="update()" class="accent-700-fg"  mat-button >UPDATE</button>
+    </div>
+
+</div>
+
+

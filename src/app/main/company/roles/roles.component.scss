@@ -1,0 +1,103 @@
+:host {
+
+    .content {
+      @keyframes spinner {
+        to {transform: rotate(360deg);}
+      }
+       
+      .spinner:before {
+        content: '';        
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        border-top-color: #000000;
+        animation: spinner .8s linear infinite;
+      }
+        form {
+            width: 100%;
+            max-width: 300px !important;
+            height: fit-content !important;
+        }
+
+        .form-errors-model {
+            flex: 1;
+
+            code {
+                background: none !important;
+            }
+        }
+
+        table {
+            width: 100%;
+          }
+          
+          .mat-form-field {
+            font-size: 14px;
+            width: 100%;
+          }
+          
+          td, th {
+            width: 10%;
+          }
+    }
+
+/* table additions */
+   
+.align-content {
+  height: 100%;
+  min-height: 40px;
+  text-align: center !important;
+}
+.d-flex {
+  display: -webkit-box!important;
+  display: -webkit-flex!important;
+  display: -ms-flexbox!important;
+  display: flex!important;
+}
+
+.justify-content-center {
+  -webkit-box-pack: center!important;
+  -webkit-justify-content: center!important;
+  -ms-flex-pack: center!important;
+  justify-content: center!important;
+}
+
+.align-items-center {
+  -webkit-box-align: center!important;
+  -webkit-align-items: center!important;
+  -ms-flex-align: center!important;
+  align-items: center!important;
+}
+
+.spinnerText {
+display: inline-block;
+margin-top: 30px;
+}
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+ 
+.tablespinner:before {
+  content: '';        
+  box-sizing: border-box;
+  position: absolute;
+ // top: 50%;
+ // left: 50%;
+  width: 30px;
+  height: 30px;
+ // margin-top: -10px;
+ // margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner .8s linear infinite;
+}
+}

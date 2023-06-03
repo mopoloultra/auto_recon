@@ -1,0 +1,33 @@
+table.a{
+  table-layout: fixed; width: auto;
+  white-space: nowrap;
+}
+table.b{
+  table-layout: fixed; width: auto;
+  white-space: nowrap;
+}
+td {
+  padding: 10px;
+  width: auto;
+}
+
+.profile-img{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.profile-heding{
+  font-weight: bold;
+  text-align: center;
+}
+
+::ng-deep.mat-dialog-container{
+  width: 400px !important;
+}
+
+.closeButton {
+  display: flex;
+  cursor: pointer;
+  justify-content: flex-end;
+}

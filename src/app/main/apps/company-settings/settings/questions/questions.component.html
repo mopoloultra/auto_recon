@@ -1,0 +1,101 @@
+<div class="general-container">
+    <span class="general-title">Multipoint Questions</span>
+    <div style="float: right; margin-right: 5%">
+        <button (click)="addNew()" mat-raised-button color="accent"><mat-icon>add</mat-icon>Add Question</button>
+    </div>
+    <br>
+    <br>
+    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+        <div fxFlex="95" fxFlex.md="95" >
+            <mat-card class="general-card">
+
+                <mat-form-field appearance="outline" class="company-select" *ngIf="usersService.getSession('userDetails').isSuper">
+                    <mat-label>Companny</mat-label>
+                    <mat-select (selectionChange)="changeData($event)" [value]="this.usersService.getSession('companyInfo').id">
+                        <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div *ngIf="loading">
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                        <mat-spinner [diameter]="40"></mat-spinner>
+                        <h3>Loading Questions</h3>
+                    </div>
+                </div>
+
+                <div [hidden]="loading">
+                    <div [hidden]="noUsersData">
+
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                        </mat-form-field>
+
+                        <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+
+
+
+                            <ng-container matColumnDef="typeName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Question Type </th>
+                                <td mat-cell *matCellDef="let element"> {{element.typeName}} </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="isCreateSubletItemOnFail">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Create Sublet Item on Fail </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-checkbox *ngIf="!element.isCreateSubletItemOnFail" disabled></mat-checkbox>
+                                    <mat-checkbox  *ngIf="element.isCreateSubletItemOnFail" checked="true" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
+                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="createdByUserName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Create By </th>
+                                <td mat-cell *matCellDef="let element"> {{element.createdByUserName}} </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="isActiveFlag">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button (click)='viewInfo(element)' mat-icon-button color="accent">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+
+                    <div [hidden]="!noUsersData">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <h3>No Questions found</h3>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </mat-card>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,126 @@
+<div id="chat" class="page-layout carded fullwidth inner-scroll">
+
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div fxLayout="row" fxLayoutGap="20px" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+            <div fxFlex="5" fxFlex.md="5" fxFlex.xs="0" fxFlex.sm="0"></div>
+            <div fxFlex="40" fxFlex.md="40" fxFlex.xs="100" fxFlex.sm="100">
+                <mat-card>
+                    <img class="profile-img" [src]="profileImg" style="margin-right: auto; margin-left: auto; display: block; width: 27%; border-radius: 50%;" >
+                    <div [hidden]="updatingPic" class="upload-container">
+                        <input type="file" class="dropify" accept="image/*"  (change)="getFile($event)" />
+                    </div>
+
+                    <h2>
+                        General Information
+                        <span style="float: right">
+                              <button (click)="toggleEdit()" mat-icon-button><mat-icon>edit</mat-icon></button>
+                        </span>
+                    </h2>
+
+                    <form [formGroup]="userInfoFormGroup">
+                        <div style="display: flex; justify-content: center;">
+                            <mat-form-field   class="select-form" appearance="outline" style="margin-right: 10px;width: 50%;">
+                                <mat-label>First Name</mat-label>
+                                <input type="text"  matInput formControlName="fname">
+                            </mat-form-field>
+
+                            <mat-form-field class="select-form" appearance="outline" style="width: 50%;">
+                                <mat-label>Last Name</mat-label>
+                                <input type="text"  matInput formControlName="sname">
+                            </mat-form-field>
+                        </div>
+
+
+                        <div style="display: flex; justify-content: center;">
+                            <mat-form-field class="select-form" appearance="outline" style="margin-right: 10px; width: 50%;">
+                                <mat-label>Email</mat-label>
+                                <input type="text"  matInput formControlName="email">
+                            </mat-form-field>
+
+                            <mat-form-field class="select-form" appearance="outline" style="width: 50%;">
+                                <mat-label>Contact</mat-label>
+                                <input type="number"  matInput formControlName="contact">
+                            </mat-form-field>
+                        </div>
+
+                        <div style="margin-left: 80%;">
+                            <button (click)="savePersonalChanges()" *ngIf="userInfoFormGroup.enabled" mat-raised-button color="accent" [disabled]="userInfoFormGroup.invalid">UPDATE</button>
+                        </div>
+
+
+                    </form>
+
+                </mat-card>
+            </div>
+
+            <div fxFlex="40" fxFlex.md="40" fxFlex.xs="100" fxFlex.sm="100">
+                <mat-card>
+                    <h2>
+                        Address Information
+                        <span style="float: right">
+                              <button (click)="toggleAddress()" mat-icon-button><mat-icon>edit</mat-icon></button>
+                        </span>
+                    </h2>
+
+                    <form [formGroup]="addressInfoFormGroup">
+                        <div style="display: flex; justify-content: center;">
+                            <mat-form-field   class="select-form" appearance="outline" style="margin-right: 10px;width: 50%;">
+                                <mat-label>Address 1</mat-label>
+                                <input type="text"  matInput formControlName="address">
+                            </mat-form-field>
+
+                            <mat-form-field class="select-form" appearance="outline" style="width: 50%;">
+                                <mat-label>Address 2</mat-label>
+                                <input type="text"  matInput formControlName="address2">
+                            </mat-form-field>
+                        </div>
+
+
+                        <div style="display: flex; justify-content: center;">
+                            <mat-form-field class="select-form" appearance="outline" style="margin-right: 10px; width: 50%;">
+                                <mat-label>City</mat-label>
+                                <input type="text"  matInput formControlName="city">
+                            </mat-form-field>
+
+                            <mat-form-field class="select-form" appearance="outline" style="width: 50%;">
+                                <mat-label>Zip</mat-label>
+                                <input type="number"  matInput formControlName="zip">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field class="select-form" appearance="outline" style="margin-right: 10px; width: 50%;">
+                                <mat-label>State</mat-label>
+                                <input type="text"  matInput formControlName="state">
+                            </mat-form-field>
+                        </div>
+
+                        <div style="margin-left: 80%;">
+                            <button  *ngIf="addressInfoFormGroup.enabled" (click)="saveAddress()" mat-raised-button color="accent" [disabled]="addressInfoFormGroup.invalid">UPDATE</button>
+                        </div>
+
+
+                    </form>
+                </mat-card>
+
+                <br>
+
+                <mat-card>
+                    <h2>
+                        Companies
+                    </h2>
+                    <table>
+                        <tr *ngFor="let company of userCompanies">
+                            <td><img  [src]="logoConvert(company.profilePic)" width="50"> </td>
+                            <td>{{company.name}}</td>
+                        </tr>
+                    </table>
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

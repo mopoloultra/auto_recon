@@ -1,0 +1,32 @@
+<h3 style="text-align: center;" mat-dialog-title>Update Steps</h3>
+<form [formGroup]="stepsFormGroup" (submit)="updateStep()">
+
+
+    <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+        <mat-label>Allowed days in step</mat-label>
+        <input matInput
+               type="number"
+               name="allowedDaysInStep"
+               formControlName="allowedDaysInStep"
+               required>
+
+    </mat-form-field>
+    <br>
+
+    <div style="margin-top: 10px;">
+        <mat-checkbox formControlName="isPartOfADR">Part of ADR</mat-checkbox>&nbsp;&nbsp;
+        <mat-checkbox formControlName="isPartOfTTL">Part of TTL</mat-checkbox>&nbsp;&nbsp;
+        <mat-checkbox formControlName="isActiveFlag">Active</mat-checkbox>
+    </div>
+    <br>
+
+    <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+    <button *ngIf="!loader"
+            style="margin-left: auto; margin-right: auto; display: block;"
+            mat-raised-button color="accent"
+            [disabled]="stepsFormGroup.invalid">
+        SAVE
+    </button>
+
+
+</form>

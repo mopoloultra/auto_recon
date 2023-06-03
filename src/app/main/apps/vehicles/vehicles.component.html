@@ -1,0 +1,1206 @@
+<div id="dashboard-project" class="page-layout simple">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+        <div fxFlex="10" fxFlex.md="10" fxFlex.xs="10" fxFlex.sm="10">
+            <p class="page-title">Vehicles</p>
+        </div>
+        <div style="padding-top: 20px" fxFlex="10" fxFlex.md="10" fxFlex.xs="10" fxFlex.sm="10">
+            <mat-button-toggle-group appearance="legacy" #group="matButtonToggleGroup">
+                <mat-button-toggle value="condensed" aria-label="Text align left">
+                    <mat-icon svgIcon="condensed"></mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="expanded" aria-label="Text align center">
+                    <mat-icon svgIcon="detailed"></mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div style="padding-top: 20px" fxFlex="11" fxFlex.md="11" fxFlex.xs="10" fxFlex.sm="10">
+            <button class="view-btn" [ngClass]="{'accent-500-bg': optionsView === 'all','fuse-white--fg': optionsView === 'all'}" mat-stroked-button (click)="viewAllSteps()" style="font-size: 12px !important;">
+                <mat-icon svgIcon="view"></mat-icon>
+                View All Steps
+            </button>
+        </div>
+
+        <div style="padding-top: 20px" fxFlex="12" fxFlex.md="12" fxFlex.xs="11" fxFlex.sm="11">
+            <button class="view-btn"  mat-stroked-button  style="font-size: 12px !important;">
+                <mat-icon svgIcon="user"></mat-icon>
+                Assigned To Me
+            </button>
+        </div>
+
+        <div style="padding-top: 20px" fxFlex="9" fxFlex.md="9" fxFlex.xs="8" fxFlex.sm="8">
+            <button (click)="viewHotList()"  style="font-size: 12px !important;" [ngClass]="{'accent-500-bg': hotlistOption === 'hotlist','fuse-white--fg': hotlistOption === 'hotlist'}"  class="view-btn" mat-stroked-button>
+                <mat-icon svgIcon="fire"></mat-icon>
+                Hot List
+            </button>
+        </div>
+
+        <div style="padding-top: 20px" fxFlex="11" fxFlex.md="11" fxFlex.xs="10" fxFlex.sm="10">
+            <button class="view-btn" (click)="getFaves()"  style="font-size: 12px !important;" [ngClass]="{'accent-500-bg': faveOption === 'faves','fuse-white--fg': faveOption === 'faves'}"  mat-stroked-button>
+                <mat-icon svgIcon="star"></mat-icon>
+                My WatchList
+            </button>
+        </div>
+
+        <div style="padding-top: 20px" fxFlex="9" fxFlex.md="9" fxFlex.xs="8" fxFlex.sm="8">
+            <button class="view-btn"  style="font-size: 12px !important;" mat-stroked-button>
+                <mat-icon svgIcon="archive"></mat-icon>&nbsp;
+                Archived
+            </button>
+        </div>
+    </div>
+    <mat-tab-group *ngIf="defaultView" #tabGroup (selectedTabChange)="tabChanged($event)">
+
+        <mat-tab *ngFor="let phase of phases; let i = index">
+            <ng-template matTabLabel>
+                {{phase.name}} &nbsp;<span matBadge="{{phase.vehiclesCount}}" matBadgeOverlap="false"></span>
+            </ng-template>
+
+            <div *ngIf="phase.vehiclesCount > 0" fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                <div fxFlex="100" fxFlex.md="100" fxFlex.xs="100" fxFlex.sm="100">
+                    <div class="widget-group p-12 vehicle-items" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                         [@animateStagger]="{value:'50'}">
+
+                        <!-- ALL VEHICLE WIDGET -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    {{phase.name}}
+                                    <button mat-icon-button fuseWidgetToggle aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="light-blue-fg font-size-72 line-height-72">
+                                        {{phase.vehiclesCount}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">VEHICLES
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        Total Vehicles:
+                                    </span>
+                                    <span class="h4 ml-8">
+                                        {{stepsStats.totalVehicles}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    Incoming
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+
+
+                        <!-- ON TRACK WIDGET -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">On Track</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="green-fg font-size-72 line-height-72">
+                                        {{phase.onTrackCount}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">VEHICLES
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        All Vehicles:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalOnTrack}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    On Track
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+
+
+                        <!-- DELAYED WIDGET -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">Delayed</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="orange-fg font-size-72 line-height-72">
+                                        {{phase.delayedCount}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">VEHICLES
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        All Vehicles:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalDelayed}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    Delayed
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+                        <!-- /DELAYED WIDGET -->
+
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">Overdue</div>
+
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="more">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="red-fg font-size-72 line-height-72">
+                                        {{phase.overdueCount}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">VEHICLES
+                                    </div>
+                                </div>
+
+                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        All Vehicles:
+                                    </span>
+                                    <span class="h4 ml-8">{{stepsStats.totalOverdue}}</span>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                            <!-- Back -->
+                            <div class="fuse-widget-back p-16 pt-32">
+                                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                        aria-label="Flip widget">
+                                    <mat-icon class="s-16">close</mat-icon>
+                                </button>
+
+                                <div>
+                                    Delayed
+                                </div>
+                            </div>
+                            <!-- / Back -->
+
+                        </fuse-widget>
+
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+
+                                <div class="pl-16 pr-8 py-16 h-52 border-bottom" fxLayout="row"
+                                     fxLayoutAlign="space-between center">
+                                    <span style="font-size: 10px;">Time in Phase
+                                        (Average Days)</span>
+                                    <mat-form-field>
+                                        <mat-select [value]="timeInPhase" class="simplified font-size-16">
+                                            <mat-option value="Coming">
+                                                Coming
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="chart-container">
+                                        <canvas baseChart
+                                                [datasets]="getAverageDataSets(phase.avgDaysInPhase)"
+                                                [labels]="doughnutChartLabels"
+                                                [chartType]="doughnutChartType"
+                                                [options]="options"
+                                                [plugins]="getAverageOptions(phase.avgDaysInPhase)"
+                                        ></canvas>
+                                        <span style="float: left;">0</span>
+                                        <span style="float: right;">30</span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <!-- / Front -->
+
+                        </fuse-widget>
+
+
+
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="16" fxFlex.gt-xs="50" fxFlex.gt-md="16">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52 border-bottom" fxLayout="row"
+                                     fxLayoutAlign="space-between center">
+                                    <span style="font-size: 10px;">Time in All Phase
+                                        (Average Days)</span>
+                                    <mat-form-field>
+                                        <mat-select [value]="timeInAllPhases" class="simplified font-size-16">
+                                            <mat-option value="30 Days">
+                                                30 Days
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="chart-container">
+                                        <canvas baseChart
+                                                [datasets]="getAverageAllDataSets(phase.avgDaysInAllPhases)"
+                                                [labels]="doughnutChartLabels"
+                                                [chartType]="doughnutChartType"
+                                                [options]="options"
+                                                [plugins]="getAverageAllOptions(phase.avgDaysInAllPhases)"
+                                        ></canvas>
+                                        <span style="float: left;">0</span>
+                                        <span style="float: right;">30</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </fuse-widget>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <fuse-widget *ngIf="phase.vehiclesCount > 0" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
+                <div class="fuse-widget-front">
+                    <div [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100">
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="100">
+                            <mat-form-field class="example-full-width">
+                                <span matPrefix> <mat-icon matSuffix>search</mat-icon></span>
+                                <input [ngModel]="filter" type="text" matInput placeholder="Search Everything">
+
+                            </mat-form-field>
+
+                        </fuse-widget>
+                    </div>
+                </div>
+            </fuse-widget>
+
+            <div  *ngIf="!loading">
+                <div *ngIf="!noData">
+                    <div  *ngFor="let vehicle of obs | async | filter:filter" style="margin-bottom: 2px;" [ngClass]="{'vehicle-card-delayed': vehicle.status ==='Delayed' , 'vehicle-card-overdue': vehicle.status ==='Overdue','vehicle-card-incoming': vehicle.status ==='Incoming' , 'vehicle-card-ontrack': vehicle.status === 'onTrack'}"
+                 fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                <div fxFlex="80" fxFlex.md="80" fxFlex.xs="80" fxFlex.sm="80">
+                    <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                        <div fxFlex="25" fxFlex.md="25" fxFlex.xs="25" fxFlex.sm="25">
+                            <div style="cursor: pointer; background-color: #fff;" (click)="view(vehicle.id)" [hidden]="group.value === 'condensed'">
+                                <img class="car-image" [src]="imageConvert(vehicle.DocumentDataByte)">
+                            </div>
+
+                            <div [hidden]="group.value !== 'condensed'">
+                                <p style="cursor: pointer;" (click)="view(vehicle.id)">
+                                    <b>#{{vehicle.stockNumber}}</b> {{vehicle.year}} {{vehicle.make}} {{vehicle.model}}
+
+                                </p>
+                                <p style="color: #1A237E; font-weight: bold; cursor: pointer;" (click)="getNotesToSelf(vehicle.id)" [matMenuTriggerFor]="menu1">NOTE TO SELF</p>
+                                <mat-menu style="overflow: hidden !important;" #menu1="matMenu">
+                                    <div style="width: 550px; height: 150px;">
+                                        <div *ngIf="loadingNotes" (click)="$event.stopPropagation()">
+                                            Loading Notes..
+                                        </div>
+                                        <div *ngIf="!loadingNotes">
+                                            <div (click)="$event.stopPropagation()">
+                                                <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                                                    <mat-label>Notes</mat-label>
+                                                    <textarea  matInput #notess name="notes" [formControl]="notes" maxlength="150"></textarea>
+                                                    <mat-hint align="end">{{notess.value.length}}
+                                                        / 150
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                            <div style="margin-left: 10px;">
+                                                <button mat-raised-button color="accent"
+                                                        (click)="saveNote(vehicle.id)"
+                                                        [disabled]="notes.invalid">
+                                                    SAVE
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </mat-menu>
+                            </div>
+
+                            <div class="vehicle-items">
+                                <button mat-icon-button (click)="vehicleFav(vehicle.id, vehicle.isFav, phase.id)">
+                                    <mat-icon [ngClass]="{'yellow-600-fg': vehicle.isFav,'fuse-black--fg': !vehicle.isFav}">star</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>event</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>mail_outline</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>account_circle</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>check_box</mat-icon>
+                                </button>
+                            </div>
+
+
+
+                        </div>
+                        <div class="vehicle-details" fxFlex="17" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+                            <table>
+                                <tr [hidden]="group.value === 'condensed'">
+                                    <td style="font-weight: bold;">{{vehicle.year}} {{vehicle.make}}</td>
+                                </tr>
+                                <tr [hidden]="group.value === 'condensed'">
+                                    <td style="font-weight: bold;">{{vehicle.model}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>STK</b> {{vehicle.stockNumber}} (Used)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>VIN</b> {{vehicle.VIN}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>ODO</b> {{vehicle.mileage}} Miles</td>
+                                </tr>
+                                <tr>
+                                    <td><b>CLR</b> {{vehicle.colorName}}</td>
+                                </tr>
+
+                                <tr [hidden]="group.value === 'condensed'">
+                                    <td style="color: #1A237E; font-weight: bold;  cursor: pointer;" (click)="getNotesToSelf(vehicle.id)" [matMenuTriggerFor]="menu1">NOTE TO SELF</td>
+                                    <mat-menu style="overflow: hidden !important;" #menu1="matMenu">
+                                        <div style="width: 550px; height: 150px;">
+                                            <div *ngIf="loadingNotes" (click)="$event.stopPropagation()">
+                                                Loading Notes..
+                                            </div>
+                                            <div *ngIf="!loadingNotes">
+                                                <div (click)="$event.stopPropagation()">
+                                                    <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                                                        <mat-label>Notes</mat-label>
+                                                        <textarea  matInput #notess name="notes" [formControl]="notes" maxlength="150"></textarea>
+                                                        <mat-hint align="end">{{notess.value.length}}
+                                                            / 150
+                                                        </mat-hint>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div style="margin-left: 10px;">
+                                                    <button mat-raised-button color="accent"
+                                                            (click)="saveNote(vehicle.id)"
+                                                            [disabled]="notes.invalid">
+                                                        SAVE
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </mat-menu>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="vehicle-other-info" fxFlex="10" fxFlex.md="10" fxFlex.xs="10" fxFlex.sm="10">
+
+                            <div [hidden]="group.value === 'condensed'">
+                                <span class="badges inspections-badge">{{vehicle.inspectionCount}}</span> Inspections<br><br>
+                                <span class="badges ros-badge">{{vehicle.ROCount}}</span> ROs<br><br>
+                                <span class="badges est-badge">{{vehicle.picturesCount}}</span> Pictures <br><br>
+                                <span class="badges recalls-badge">{{vehicle.approvalCount}}</span> Approval<br><br>
+                            </div>
+
+                            <div style="line-height: 15px !important;" [hidden]="group.value !== 'condensed'">
+                                <span class="badges inspections-badge">{{vehicle.inspectionCount}}</span>&nbsp;
+                                <span class="badges ros-badge">{{vehicle.ROCount}}</span><br><br>
+                                <span class="badges est-badge">{{vehicle.picturesCount}}</span>&nbsp;
+                                <span class="badges recalls-badge">{{vehicle.approvalCount}}</span>
+                            </div>
+                        </div>
+
+                        <div fxFlex="45" fxFlex.md="45" fxFlex.xs="45" fxFlex.sm="45">
+                            <div class="vehicle-recents-activity" [hidden]="group.value === 'condensed'">
+                                <span style="float: left; font-size: 11px; font-weight: bold; padding-left: 2px;">RECENT ACTIVITY</span>
+                                <span style="float: right; font-size: 11px; padding-right: 3px;">
+                                <a (click)="viewActivities(vehicle.id)"  style="color: #ff3e31; cursor: pointer; font-weight: bold" *ngIf="vehicle.activityHistory.length > 0">VIEW ALL</a>
+                            </span>
+                                <br>
+                                <table width="100%">
+                                     <tr *ngFor="let activity of vehicle.activityHistory | slice:0:3;">
+                                        <td style="width: 30%;">
+                                            <p class="recent-name">{{activity.createdByUserName}}</p>
+                                            <p class="recent-time">{{activity.createDate | date: 'MMM d, y, h:mm:ss a'}}</p>
+                                        </td>
+                                        <td style="width: 70%; font-size: 11px; text-align: left">
+                                            {{activity.description}}
+                                        </td>
+                                    </tr>
+
+<!--                                    <tr>-->
+<!--                                        <td style="width: 30%;">-->
+<!--                                            <p class="recent-name">C Pike</p>-->
+<!--                                            <p class="recent-time">3 Hours ago</p>-->
+<!--                                        </td>-->
+<!--                                        <td style="width: 70%; font-size: 11px; text-align: left">-->
+<!--                                            Whats the status on this sold unit ? Taylor has sold it.-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+
+<!--                                    <tr>-->
+<!--                                        <td style="width: 30%;">-->
+<!--                                            <p class="recent-name">E Russell</p>-->
+<!--                                            <p class="recent-time">1 Day ago</p>-->
+<!--                                        </td>-->
+<!--                                        <td style="width: 70%; font-size: 11px; text-align: left">-->
+<!--                                            Just traded needs detail only nice truck!-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+                                </table>
+<!--                                <div fxLayoutAlign="flex-end">-->
+<!--                                    <button mat-icon-button>-->
+<!--                                        <mat-icon class="add-btn-icon">add</mat-icon>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+                            </div>
+
+                            <div class="vehicle-tab-condensed" [hidden]="group.value !== 'condensed'">
+                                <table width="100%">
+                                    <tr>
+                                        <td style="width: 52%; font-size: 11px;">
+                                            <p *ngFor="let activity of vehicle.activityHistory | slice:0:3;">
+                                                <mat-icon class="view-icon">{{activity.icon}}</mat-icon>
+                                                {{activity.description}} on {{activity.createDate | date: 'MMM d, y, h:mm:ss a'}}
+                                            </p>
+<!--                                            <p>-->
+<!--                                                <mat-icon class="view-icon">av_timer</mat-icon>-->
+<!--                                                Marked as incoming on 10/26/2019 at 3:40pm-->
+<!--                                            </p>-->
+                                        </td>
+                                        <td style="width: 8%;">
+                                            <button mat-mini-fab disabled>JS</button>
+                                        </td>
+                                        <td style="width: 40%; padding-left: 30px">
+                                            <mat-form-field>
+                                                <mat-select  (selectionChange)="confirmUpdatePhase(phase.name, vehicle.id, $event)"  value="{{phase.id}}" class="prog-select-bar" style="width: 100% !important; height: 24px !important; padding-top: 2px;">
+                                                    <mat-option>None</mat-option>
+                                                    <mat-option *ngFor="let phasess of phases" value="{{phasess.id}}">{{phasess.name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="cost-container" fxFlex="20" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+                    <div class="actions" style="float: right;">
+
+                            <a class="action-btn new"  [matMenuTriggerFor]="menu">
+                                New
+                                <mat-icon class="new-icon">add</mat-icon>
+                            </a>
+                        <mat-menu #menu="matMenu">
+                            <button (click)="addTag(tag,vehicle.id,phase.id)" *ngFor="let tag of vehicleTags" mat-menu-item> {{tag.name}}</button>
+                        </mat-menu>
+
+                        <span  *ngFor="let tagss of vehicle.vehicleTags| slice:0:3;">
+                             <a class="action-btn" [matMenuTriggerFor]="menu1" [ngClass]="tagss.colorCode">
+                            {{tagss.name}}
+                            </a>
+
+                            <mat-menu #menu1="matMenu">
+                                <button mat-menu-item (click)="deleteTag(tagss,vehicle.id,phase.id)"> Remove</button>
+                            </mat-menu>
+                        </span>
+
+
+
+                        <button mat-icon-button>
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                    </div>
+
+                    <div style="padding-top: 10%;" [hidden]="group.value === 'condensed'">
+                            <mat-select value="{{phase.id}}"  (selectionChange)="confirmUpdatePhase(phase.name, vehicle.id, $event)" class="prog-select-bar" style="width: 40%; height: 24px !important; padding-top: 2px;">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let phasess of phases" value="{{phasess.id}}">{{phasess.name}}</mat-option>
+                            </mat-select>
+                    </div>
+                    <table style="padding-top: 10px;" width="100%">
+                        <tr>
+                            <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                Assigned to
+                            </td>
+                            <td style="width: 50%; text-align: right; font-size: 12px; font-style: italic; color: #c0c0c0; padding-right: 10px;">
+                                C Lacey
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                Time In Phase
+                            </td>
+                            <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                {{vehicle.timeInStepInMins}}m
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                Time In Recon
+                            </td>
+                            <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                {{vehicle.timeInReconInMins}}m
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                Total Spent
+                            </td>
+                            <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                {{vehicle.AppraisedValue | currency}}
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                    <p style="font-size: 12px; color: #c0c0c0">Goal 1 Day</p>
+                </div>
+            </div>
+                </div>
+                <div style="margin-top: 5%" *ngIf="noData">
+                    <div  fxLayout="row" fxLayoutAlign="center center" >
+                        <h2>No vehicles found</h2>
+                    </div>
+                </div>
+
+                <div *ngIf="phase.id === phaseId && phase.vehiclesCount > 0">
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+            </div>
+
+            <div style="margin-top: 5%" *ngIf="loading">
+                <div fxLayout="column" fxLayoutAlign="center center" >
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    <h2>Loading vehicles..</h2>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </mat-tab>
+
+
+    </mat-tab-group>
+
+    <div *ngIf="optionsView === 'all'">
+        <div  *ngIf="!loading" >
+            <div style="background: white; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; margin-left: 1%; margin-right: 1%; padding: 10px; margin-bottom: 3%;">
+                <mat-form-field class="example-full-width" style="width: 100% !important;">
+                    <span matPrefix> <mat-icon matSuffix>search</mat-icon></span>
+                    <input [ngModel]="filter" type="text" matInput placeholder="Search Everything">
+
+                </mat-form-field>
+            </div>
+            <div *ngIf="!noData">
+
+                <div  fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                    <div fxFlex="100" fxFlex.md="100" fxFlex.xs="100" fxFlex.sm="100">
+                        <div class="widget-group p-12 vehicle-items" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                             [@animateStagger]="{value:'50'}">
+
+                            <!-- ALL VEHICLE WIDGET -->
+                            <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                         fxFlex="25" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                <!-- Front -->
+                                <div class="fuse-widget-front">
+                                    <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                        All Vehicles
+                                        <button mat-icon-button fuseWidgetToggle aria-label="more">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                        <div class="light-blue-fg font-size-72 line-height-72">
+                                            {{stepsStats.totalVehicles}}
+                                        </div>
+                                        <div class="h3 secondary-text font-weight-500">VEHICLES
+                                        </div>
+                                    </div>
+
+                                    <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                    Yesterday:
+                                    </span>
+                                        <span class="h4 ml-8">
+                                        {{stepsStats.totalVehiclesYesterday}}
+                                    </span>
+                                    </div>
+                                </div>
+                                <!-- / Front -->
+
+                                <!-- Back -->
+                                <div class="fuse-widget-back p-16 pt-32">
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="Flip widget">
+                                        <mat-icon class="s-16">close</mat-icon>
+                                    </button>
+
+                                    <div>
+                                        Incoming
+                                    </div>
+                                </div>
+                                <!-- / Back -->
+
+                            </fuse-widget>
+
+
+                            <!-- ON TRACK WIDGET -->
+                            <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                         fxFlex="25" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                <!-- Front -->
+                                <div class="fuse-widget-front">
+                                    <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                        <div class="h3">On Track</div>
+
+                                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                                aria-label="more">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                        <div class="green-fg font-size-72 line-height-72">
+                                            {{stepsStats.totalOnTrack}}
+                                        </div>
+                                        <div class="h3 secondary-text font-weight-500">VEHICLES
+                                        </div>
+                                    </div>
+
+                                    <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        Yesterday:
+                                    </span>
+                                        <span class="h4 ml-8">{{stepsStats.totalOnTrackYesterday}}</span>
+                                    </div>
+                                </div>
+                                <!-- / Front -->
+
+                                <!-- Back -->
+                                <div class="fuse-widget-back p-16 pt-32">
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="Flip widget">
+                                        <mat-icon class="s-16">close</mat-icon>
+                                    </button>
+
+                                    <div>
+                                        On Track
+                                    </div>
+                                </div>
+                                <!-- / Back -->
+
+                            </fuse-widget>
+
+
+                            <!-- DELAYED WIDGET -->
+                            <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                         fxFlex="25" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                <!-- Front -->
+                                <div class="fuse-widget-front">
+                                    <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                        <div class="h3">Delayed</div>
+
+                                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                                aria-label="more">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                        <div class="orange-fg font-size-72 line-height-72">
+                                            {{stepsStats.totalDelayed}}
+                                        </div>
+                                        <div class="h3 secondary-text font-weight-500">VEHICLES
+                                        </div>
+                                    </div>
+
+                                    <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        Yesterday:
+                                    </span>
+                                        <span class="h4 ml-8">{{stepsStats.totalDelayedYesterday}}</span>
+                                    </div>
+                                </div>
+                                <!-- / Front -->
+
+                                <!-- Back -->
+                                <div class="fuse-widget-back p-16 pt-32">
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="Flip widget">
+                                        <mat-icon class="s-16">close</mat-icon>
+                                    </button>
+
+                                    <div>
+                                        Delayed
+                                    </div>
+                                </div>
+                                <!-- / Back -->
+
+                            </fuse-widget>
+                            <!-- /DELAYED WIDGET -->
+
+                            <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                         fxFlex="25" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                                <!-- Front -->
+                                <div class="fuse-widget-front">
+                                    <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                        <div class="h3">Overdue</div>
+
+                                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                                aria-label="more">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                        <div class="red-fg font-size-72 line-height-72">
+                                            {{stepsStats.totalOverdue}}
+                                        </div>
+                                        <div class="h3 secondary-text font-weight-500">VEHICLES
+                                        </div>
+                                    </div>
+
+                                    <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                                    <span class="h4 secondary-text text-truncate">
+                                        Yesterday:
+                                    </span>
+                                        <span class="h4 ml-8">{{stepsStats.totalOverdueYesterday}}</span>
+                                    </div>
+                                </div>
+                                <!-- / Front -->
+
+                                <!-- Back -->
+                                <div class="fuse-widget-back p-16 pt-32">
+                                    <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                            aria-label="Flip widget">
+                                        <mat-icon class="s-16">close</mat-icon>
+                                    </button>
+
+                                    <div>
+                                        Delayed
+                                    </div>
+                                </div>
+                                <!-- / Back -->
+
+                            </fuse-widget>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div  *ngFor="let vehicle of obs | async | filter:filter" style="margin-bottom: 2px;" [ngClass]="{'vehicle-card-delayed': vehicle.status ==='Delayed' , 'vehicle-card-overdue': vehicle.status ==='Overdue','vehicle-card-incoming': vehicle.status ==='Incoming' , 'vehicle-card-ontrack': vehicle.status === 'onTrack'}"
+                      fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                    <div fxFlex="80" fxFlex.md="80" fxFlex.xs="80" fxFlex.sm="80">
+                        <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                            <div fxFlex="25" fxFlex.md="25" fxFlex.xs="25" fxFlex.sm="25">
+                                <div style="cursor: pointer; background-color: #fff;" (click)="view(vehicle.id)" [hidden]="group.value === 'condensed'">
+                                    <img class="car-image" [src]="imageConvert(vehicle.DocumentDataByte)">
+                                </div>
+
+                                <div [hidden]="group.value !== 'condensed'">
+                                    <p style="cursor: pointer;" (click)="view(vehicle.id)">
+                                        <b>#{{vehicle.stockNumber}}</b> {{vehicle.year}} {{vehicle.make}} {{vehicle.model}}
+
+                                    </p>
+                                    <p style="color: #1A237E; font-weight: bold; cursor: pointer " (click)="getNotesToSelf(vehicle.id)" [matMenuTriggerFor]="menu1">NOTE TO SELF</p>
+                                    <mat-menu style="overflow: hidden !important;" #menu1="matMenu">
+                                            <div style="width: 550px; height: 150px;">
+                                            <div *ngIf="loadingNotes" (click)="$event.stopPropagation()">
+                                                Loading Notes..
+                                            </div>
+                                            <div *ngIf="!loadingNotes">
+                                                <div (click)="$event.stopPropagation()">
+                                                    <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                                                        <mat-label>Notes</mat-label>
+                                                        <textarea  matInput #notess name="notes" [formControl]="notes" maxlength="150"></textarea>
+                                                        <mat-hint align="end">{{notess.value.length}}
+                                                            / 150
+                                                        </mat-hint>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div style="margin-left: 10px;">
+                                                    <button mat-raised-button color="accent"
+                                                            (click)="saveNote(vehicle.id)"
+                                                            [disabled]="notes.invalid">
+                                                        SAVE
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </mat-menu>
+                                </div>
+
+                                <div class="vehicle-items">
+                                    <button mat-icon-button (click)="vehicleFav(vehicle.id, vehicle.isFav, 0)">
+                                        <mat-icon [ngClass]="{'yellow-600-fg': vehicle.isFav,'fuse-black--fg': !vehicle.isFav}">star</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon>event</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon>mail_outline</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon>account_circle</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon>check_box</mat-icon>
+                                    </button>
+                                </div>
+
+
+
+                            </div>
+                            <div class="vehicle-details" fxFlex="17" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+                                <table>
+                                    <tr [hidden]="group.value === 'condensed'">
+                                        <td style="font-weight: bold;">{{vehicle.year}} {{vehicle.make}}</td>
+                                    </tr>
+                                    <tr [hidden]="group.value === 'condensed'">
+                                        <td style="font-weight: bold;">{{vehicle.model}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>STK</b> {{vehicle.stockNumber}} (Used)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>VIN</b> {{vehicle.VIN}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>ODO</b> {{vehicle.mileage}} Miles</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>CLR</b> {{vehicle.colorName}}</td>
+                                    </tr>
+
+                                    <tr [hidden]="group.value === 'condensed'">
+                                        <td style="color: #1A237E; font-weight: bold; cursor: pointer;" (click)="getNotesToSelf(vehicle.id)" [matMenuTriggerFor]="menu1">NOTE TO SELF</td>
+                                        <mat-menu style="overflow: hidden !important;" #menu1="matMenu">
+                                            <div style="width: 550px; height: 150px;">
+                                                <div *ngIf="loadingNotes" (click)="$event.stopPropagation()">
+                                                    Loading Notes..
+                                                </div>
+                                                <div *ngIf="!loadingNotes">
+                                                    <div (click)="$event.stopPropagation()">
+                                                        <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                                                            <mat-label>Notes</mat-label>
+                                                            <textarea  matInput #notess name="notes" [formControl]="notes" maxlength="150"></textarea>
+                                                            <mat-hint align="end">{{notess.value.length}}
+                                                                / 150
+                                                            </mat-hint>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div style="margin-left: 10px;">
+                                                        <button mat-raised-button color="accent"
+                                                                (click)="saveNote(vehicle.id)"
+                                                                [disabled]="notes.invalid">
+                                                            SAVE
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </mat-menu>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="vehicle-other-info" fxFlex="10" fxFlex.md="10" fxFlex.xs="10" fxFlex.sm="10">
+
+                                <div [hidden]="group.value === 'condensed'">
+                                    <span class="badges inspections-badge">{{vehicle.inspectionCount}}</span> Inspections<br><br>
+                                    <span class="badges ros-badge">{{vehicle.ROCount}}</span> ROs<br><br>
+                                    <span class="badges est-badge">{{vehicle.picturesCount}}</span> Pictures<br><br>
+                                    <span class="badges recalls-badge">{{vehicle.approvalCount}}</span> Approval<br><br>
+                                </div>
+
+                                <div style="line-height: 15px !important;" [hidden]="group.value !== 'condensed'">
+                                    <span class="badges inspections-badge">{{vehicle.inspectionCount}}</span>&nbsp;
+                                    <span class="badges ros-badge">{{vehicle.ROCount}}</span><br><br>
+                                    <span class="badges est-badge">{{vehicle.picturesCount}}</span>&nbsp;
+                                    <span class="badges recalls-badge">{{vehicle.approvalCount}}</span>
+                                </div>
+                            </div>
+
+                            <div fxFlex="45" fxFlex.md="45" fxFlex.xs="45" fxFlex.sm="45">
+                                <div class="vehicle-recents-activity" [hidden]="group.value === 'condensed'">
+                                    <span style="float: left; font-size: 11px; font-weight: bold; padding-left: 2px;">RECENT ACTIVITY</span>
+                                    <span style="float: right; font-size: 11px; padding-right: 3px;">
+                                <a (click)="viewActivities(vehicle.id)" style="color: #ff3e31; cursor: pointer; font-weight: bold" *ngIf="vehicle.activityHistory.length > 0">VIEW ALL</a>
+                            </span>
+                                    <br>
+
+                                    <table width="100%">
+                                        <tr *ngFor="let activity of vehicle.activityHistory | slice:0:3;">
+                                            <td style="width: 30%;">
+                                                <p class="recent-name">{{activity.createdByUserName}}</p>
+                                                <p class="recent-time">{{activity.createDate | date: 'MMM d, y, h:mm:ss a'}}</p>
+                                            </td>
+                                            <td style="width: 70%; font-size: 11px; text-align: left">
+                                                {{activity.description}}
+                                            </td>
+                                        </tr>
+
+<!--                                        <tr>-->
+<!--                                            <td style="width: 30%;">-->
+<!--                                                <p class="recent-name">K Wilson</p>-->
+<!--                                                <p class="recent-time">21 Min ago</p>-->
+<!--                                            </td>-->
+<!--                                            <td style="width: 70%; font-size: 11px; text-align: left">-->
+<!--                                                Marked as "Checked in"-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+
+<!--                                        <tr>-->
+<!--                                            <td style="width: 30%;">-->
+<!--                                                <p class="recent-name">C Pike</p>-->
+<!--                                                <p class="recent-time">3 Hours ago</p>-->
+<!--                                            </td>-->
+<!--                                            <td style="width: 70%; font-size: 11px; text-align: left">-->
+<!--                                                Whats the status on this sold unit ? Taylor has sold it.-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+
+<!--                                        <tr>-->
+<!--                                            <td style="width: 30%;">-->
+<!--                                                <p class="recent-name">E Russell</p>-->
+<!--                                                <p class="recent-time">1 Day ago</p>-->
+<!--                                            </td>-->
+<!--                                            <td style="width: 70%; font-size: 11px; text-align: left">-->
+<!--                                                Just traded needs detail only nice truck!-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+                                    </table>
+<!--                                    <div fxLayoutAlign="flex-end">-->
+<!--                                        <button mat-icon-button>-->
+<!--                                            <mat-icon class="add-btn-icon">add</mat-icon>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+                                </div>
+
+                                <div class="vehicle-tab-condensed" [hidden]="group.value !== 'condensed'">
+                                    <table width="100%">
+                                        <tr >
+                                            <td style="width: 52%; font-size: 11px;">
+                                                <p *ngFor="let activity of vehicle.activityHistory | slice:0:3;">
+                                                    <mat-icon class="view-icon">{{activity.icon}}</mat-icon>
+                                                    {{activity.description}} on {{activity.createDate | date: 'MMM d, y, h:mm:ss a'}}
+                                                </p>
+<!--                                                <p>-->
+<!--                                                    <mat-icon class="view-icon">av_timer</mat-icon>-->
+<!--                                                    Marked as incoming on 10/26/2019 at 3:40pm-->
+<!--                                                </p>-->
+                                            </td>
+                                            <td style="width: 8%;">
+                                                <button mat-mini-fab disabled>JS</button>
+                                            </td>
+                                            <td style="width: 40%; padding-left: 30px">
+<!--                                                <mat-form-field>-->
+<!--                                                    <mat-select  (selectionChange)="confirmUpdatePhase(phase.name, vehicle.id, $event)"  value="{{phase.id}}" class="prog-select-bar" style="width: 100% !important; height: 24px !important; padding-top: 2px;">-->
+<!--                                                        <mat-option>None</mat-option>-->
+<!--                                                        <mat-option *ngFor="let phasess of phases" value="{{phasess.id}}">{{phasess.name}}</mat-option>-->
+<!--                                                    </mat-select>-->
+<!--                                                </mat-form-field>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="cost-container" fxFlex="20" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+                        <div class="actions" style="float: right;">
+
+                            <a class="action-btn new" [matMenuTriggerFor]="menu">
+                                New
+                                <mat-icon class="new-icon">add</mat-icon>
+                            </a>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="addTag(tag,vehicle.id,0)" *ngFor="let tag of vehicleTags" mat-menu-item> {{tag.name}}</button>
+                            </mat-menu>
+
+                            <span  *ngFor="let tagss of vehicle.vehicleTags| slice:0:3;">
+                             <a class="action-btn" [matMenuTriggerFor]="menu1" [ngClass]="tagss.colorCode">
+                            {{tagss.name}}
+                            </a>
+
+                            <mat-menu #menu1="matMenu">
+                                <button mat-menu-item (click)="deleteTag(tagss,vehicle.id,0)"> Remove</button>
+                            </mat-menu>
+                        </span>
+                            <button mat-icon-button>
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                        </div>
+
+                        <div style="padding-top: 10%;" [hidden]="group.value === 'condensed'">
+<!--                            <mat-select value="{{phase.id}}"  (selectionChange)="confirmUpdatePhase(phase.name, vehicle.id, $event)" class="prog-select-bar" style="width: 40%; height: 24px !important; padding-top: 2px;">-->
+<!--                                <mat-option>None</mat-option>-->
+<!--                                <mat-option *ngFor="let phasess of phases" value="{{phasess.id}}">{{phasess.name}}</mat-option>-->
+<!--                            </mat-select>-->
+                        </div>
+                        <table style="padding-top: 10px;" width="100%">
+                            <tr>
+                                <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                    Assigned to
+                                </td>
+                                <td style="width: 50%; text-align: right; font-size: 12px; font-style: italic; color: #c0c0c0; padding-right: 10px;">
+                                    C Lacey
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                    Time In Phase
+                                </td>
+                                <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                    {{vehicle.timeInStepInMins}}m
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                    Time In Recon
+                                </td>
+                                <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                    {{vehicle.timeInReconInMins}}m
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 50%; text-align: left; font-weight: bold; font-size: 12px;">
+                                    Total Spent
+                                </td>
+                                <td style="width: 50%; text-align: right; font-size: 12px; padding-right: 10px">
+                                    {{vehicle.AppraisedValue | currency}}
+                                </td>
+                            </tr>
+                        </table>
+                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                        <p style="font-size: 12px; color: #c0c0c0">Goal 1 Day</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 5%" *ngIf="noData">
+                <div  fxLayout="row" fxLayoutAlign="center center" >
+                    <h2>No vehicles found</h2>
+                </div>
+            </div>
+
+            <div *ngIf="vehicles.length > 0">
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+        <div style="margin-top: 5%" *ngIf="loading">
+            <div fxLayout="column" fxLayoutAlign="center center" >
+                <mat-spinner [diameter]="50"></mat-spinner>
+                <h2>Loading vehicles..</h2>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: white; border-color: rgba(0, 0, 0, 0.12); border-radius: 5px; margin-left: 1%; margin-right: 1%; padding: 10px; margin-bottom: 3%;" *ngIf="optionsView === 'hotlist'">
+        <app-hotlist></app-hotlist>
+    </div>
+
+
+</div>

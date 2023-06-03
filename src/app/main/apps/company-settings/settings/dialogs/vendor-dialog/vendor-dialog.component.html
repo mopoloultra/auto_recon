@@ -1,0 +1,88 @@
+<div style="float: right;">
+    <button (click)="close()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<h3 style="text-align: center;" mat-dialog-title>Vendor</h3>
+
+<div style="height: 400px;">
+    <form>
+        <div style="height: 350px !important;  overflow-y: scroll !important; overflow-x: hidden !important;">
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Name</mat-label>
+                <input matInput
+                       [(ngModel)]="data.name"
+                       name="name"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Contact</mat-label>
+                <input matInput
+                       [(ngModel)]="data.contact"
+                       name="contact"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Email</mat-label>
+                <input matInput
+                       [(ngModel)]="data.email"
+                       name="email"
+                       required>
+            </mat-form-field>
+            <br>
+
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Address</mat-label>
+                <input matInput
+                       [(ngModel)]="data.address"
+                       name="address"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-list-item class="primary-imenu-item" role="listitem">
+                <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;">
+                    <mat-label>Vendor Type(s)</mat-label>
+                    <mat-select
+                            name="vendorType"
+                            class="filter-select"
+                            [(ngModel)]="data.vendorType"
+                            [compareWith]="equals"
+                            required
+                            multiple>
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let list of data.vendorTypeList" [value]="list">
+                            {{list.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-list-item>
+
+
+
+
+
+
+        </div>
+
+        <div style="height: 50px !important;">
+            <br>
+            <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+            <button *ngIf="!loader"
+                    (click)="save()"
+                    style="margin-left: auto; margin-right: auto; display: block;"
+                    mat-raised-button color="accent">
+                SAVE
+            </button>
+        </div>
+
+    </form>
+</div>
+
+

@@ -1,0 +1,132 @@
+<div style="float: right;">
+    <button (click)="close()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<br>
+<form *ngIf="taskDetail" [formGroup]="tasksFormGroup">
+    <mat-form-field appearance="outline"  style="width: 100% !important;" >
+        <mat-label>Name</mat-label>
+        <input matInput
+               name="name"
+               (change)="updateTask()"
+               formControlName="name"
+               required>
+
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100% !important;" >
+        <mat-label>Description</mat-label>
+        <input matInput
+               name="description"
+               (change)="updateTask()"
+               formControlName="description"
+        >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100% !important;">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="updateTask()"  formControlName="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" style="width: 100% !important;">
+        <mat-label>Due Date</mat-label>
+        <input matInput [matDatepicker]="picker1" (dateChange)="updateTask()"  formControlName="dueDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+</form>
+
+
+<div *ngIf="subTasks">
+    <div *ngIf="subTasks.length > 0">
+        <div *ngFor="let sub of subTasks; let x = index">
+            <mat-divider></mat-divider>
+            <div style="margin-top: 5%; margin-bottom: 5%; margin-left: 1%;">
+                <mat-checkbox (change)="markSubTask(sub)" [checked]="sub.isCompleted"> <span [ngClass]="{'completed-task': sub.isCompleted, 'non-completed': !sub.isCompleted}">{{sub.name}}</span></mat-checkbox>
+                <span style="float: right;">
+                                    <mat-icon style="cursor: pointer;" [matMenuTriggerFor]="appMenu">more_horiz</mat-icon>
+                                </span>
+                <mat-menu #appMenu="matMenu">
+                    <button mat-menu-item (click)="updateSubtask(sub, 'delete')">Remove</button>
+                </mat-menu>
+
+            </div>
+
+            <mat-divider *ngIf="subTasks.length === (x+1)"></mat-divider>
+        </div>
+    </div>
+</div>
+<div style="float: right;">
+    <button mat-button [matMenuTriggerFor]="menu1"><mat-icon>add</mat-icon> Add Subtask</button>
+    <mat-menu #menu1="matMenu">
+        <div style="width: 550px; height: 150px;">
+            <div (click)="$event.stopPropagation()">
+                <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                    <mat-label>Name</mat-label>
+                    <textarea matInput #notess name="notes" [formControl]="subtask" maxlength="25"></textarea>
+                    <mat-hint align="end">{{notess.value.length}}
+                        / 25
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div style="margin-left: 10px;">
+                <button mat-raised-button color="accent"
+                        (click)="addSubTask()"
+                        [disabled]="subtask.invalid">
+                    SAVE
+                </button>
+            </div>
+        </div>
+    </mat-menu>
+</div>
+
+<br *ngIf="tags.length === 0">
+<p *ngIf="tags.length > 0">Selected Tags</p>
+<mat-chip-list>
+    <mat-chip
+            *ngFor="let tag of tags"
+            [selectable]="selectable"
+            [removable]="removable"
+            [ngClass]="tag.colorCode"
+            (removed)="removeLabel(tag)">
+        {{tag.name}}
+        &nbsp;&nbsp;<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+</mat-chip-list>
+<mat-form-field class="form-fields" appearance="outline" style="width: 100%;">
+    <mat-label>Tags</mat-label>
+    <mat-select  (selectionChange)="addSelectedLabel($event)" required>
+        <mat-option>-- None --</mat-option>
+        <mat-option *ngFor="let label of labels" [value]="label">{{label.name}}</mat-option>
+
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field style="width: 100%;">
+    <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip
+                *ngFor="let user of userName"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(user)">
+            {{user}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+                placeholder="Assigned users"
+                [matAutocomplete]="auto"
+                #usersInput
+                [formControl]="usersCtrl"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+            <span>{{user.name}}</span>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

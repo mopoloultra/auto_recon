@@ -1,0 +1,35 @@
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let items of noteTypes; let i = index" >
+        <mat-expansion-panel-header (click)="getData(items.id)">
+            <span>{{items.name}}</span>
+        </mat-expansion-panel-header>
+        <div *ngIf="loader" style="margin-top: 3%; margin-bottom: 3%">
+            <mat-spinner style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+            <p style="text-align: center; font-size: 20px; color: #1E2129"> Loading notes</p>
+        </div>
+        <div *ngIf="!loader" style="height: 300px; overflow-y: scroll;">
+            <div *ngIf="isData" style="padding: 20px;">
+                <div  fxLayout="column" fxLayoutGap="10px" fxLayout.xs="row" fxLayout.md="column"
+                      fxLayout.sm="column">
+                    <div *ngFor="let note of notes" fxFlex="100" fxFlex.md="100"
+                         fxFlex.xs="100" fxFlex.sm="100">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title class="accent-700-fg"><span class="dot accent-700-bg"></span> {{note.createdByUserName}}</mat-card-title>
+                                <mat-card-subtitle>{{note.createDate | date:'MMM d, y, h:mm:ss a'}}</mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>
+                                    {{note.note}}
+                                </p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isData" style="margin-top: 10%;">
+                <p style="text-align: center; font-size: 20px; color: #1E2129">No notes found</p>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>

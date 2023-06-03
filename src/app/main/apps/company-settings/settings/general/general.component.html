@@ -1,0 +1,81 @@
+<div class="general-container">
+    <span class="general-title">General</span>
+    <br>
+    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+        <div fxFlex="98" fxFlex.md="98" >
+            <mat-card class="general-card">
+                <mat-form-field appearance="outline" class="company-select" *ngIf="usersService.getSession('userDetails').isSuper">
+                    <mat-label>Compnay</mat-label>
+                    <mat-select (selectionChange)="changeData($event)" [value]="this.usersService.getSession('companyInfo').id">
+                        <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <span class="general-card-title">Company Info</span>
+                <br><br>
+                <form [formGroup]="companyInfoFormGroup">
+                    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+                        <div fxFlex="50" fxFlex.md="50" >
+                            <table>
+                                <tr>
+                                    <td style="width: 50%" colspan="1">
+                                        <mat-form-field class="select-form" appearance="outline">
+                                            <mat-label>Company Name</mat-label>
+                                            <input (keyup)="checkInfoChanges()" matInput formControlName="name">
+                                            <mat-error>Company name is required!</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%" colspan="1">
+                                        <mat-form-field class="select-form" appearance="outline">
+                                            <mat-label>Email</mat-label>
+                                            <input (keyup)="checkInfoChanges()" matInput formControlName="email">
+                                            <mat-error>Email  is required!</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%" colspan="1">
+                                        <mat-form-field class="select-form" appearance="outline">
+                                            <mat-label>Phone</mat-label>
+                                            <input type="number" (keyup)="checkInfoChanges()" matInput formControlName="contact">
+                                            <mat-error>Phone  is required!</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%" colspan="1">
+                                        <mat-form-field class="select-form" appearance="outline">
+                                            <mat-label>Address 1</mat-label>
+                                            <input (keyup)="checkInfoChanges()" matInput formControlName="address">
+                                            <input (keyup)="checkInfoChanges()" matInput formControlName="address">
+                                            <mat-error>Address 1 name is required!</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <div fxFlex="50" fxFlex.md="50" >
+                            <p style="text-align: center;">
+                                Your logo will appear on qoutes,invoices,work orders and work request forms
+                            </p>
+                            <img style="margin-right: auto; margin-left: auto; display: block;" [src]="imageConvert(logo)" width="150">
+                            <br>
+                            <div [hidden]="!getPermissions()" class="upload-container">
+                                <input type="file" class="dropify" accept="image/*"  (change)="getFile($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div fxLayoutAlign="flex-start">
+                        <button *ngIf="getPermissions()" (click)="updateInfo()" [disabled]="checkInfoChanges()" mat-raised-button color="accent">Save</button>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>

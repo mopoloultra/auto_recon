@@ -1,0 +1,124 @@
+<div class="general-container">
+    <span class="general-title">Tags</span>
+    <div style="float: right; margin-right: 5%">
+        <button *ngIf="getPermissions()" (click)="addNewTag()" mat-raised-button color="accent"><mat-icon>label</mat-icon>Add New Tag</button>
+    </div>
+    <br>
+    <br>
+
+    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+        <div fxFlex="95" fxFlex.md="95" >
+            <mat-card class="general-card">
+                <mat-form-field appearance="outline" class="company-select" *ngIf="usersService.getSession('userDetails').isSuper">
+                    <mat-label>Compnay</mat-label>
+                    <mat-select (selectionChange)="changeData($event)" [value]="this.usersService.getSession('companyInfo').id">
+                        <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div [hidden]="loading">
+                    <table width="100%" mat-table [dataSource]="dataSource" matSort >
+
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="isActiveFlag">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-checkbox *ngIf="!element.isActiveFlag" disabled></mat-checkbox>
+                                <mat-checkbox  *ngIf="element.isActiveFlag" checked="true" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="color">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Color </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div style="width: 20px; height: 20px;" [ngClass]="element.colorCode"></div>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="isTask">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Task Tag </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-checkbox *ngIf="!element.isTask" disabled></mat-checkbox>
+                                <mat-checkbox  *ngIf="element.isTask" checked="true"  [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="isVehicle">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle Tag </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-checkbox *ngIf="!element.isVehicle" disabled></mat-checkbox>
+                                <mat-checkbox  *ngIf="element.isVehicle" checked="true"  [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="createdByUserName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdByUserName}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="createDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createDate | date: 'MMM d, y, h:mm:ss a'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="edit">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Update</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button (click)="updateTags(element)" mat-icon-button>
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+                    <div [hidden]="!noTagsData">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <h3>There are no tags</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div [hidden]="!loading">
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                        <mat-spinner [diameter]="40"></mat-spinner>
+                        <h3>Loading Tags</h3>
+                    </div>
+                </div>
+
+                <div [hidden]="!noTagsData">
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                        <h3>There are no tags</h3>
+                    </div>
+                </div>
+
+
+
+            </mat-card>
+        </div>
+
+    </div>
+</div>

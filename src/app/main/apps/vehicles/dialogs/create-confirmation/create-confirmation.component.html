@@ -1,0 +1,21 @@
+<div mat-dialog-title>
+    <p>Confirm</p>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+        <button (click)="onNoClick()" class="primary-300-fg" mat-icon-button><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+<div style="margin-top: -30px !important;" mat-dialog-content>
+    <p>Do you want to start a new inspection? </p>
+</div>
+
+<div mat-dialog-actions fxLayoutAlign="flex-end">
+    <mat-spinner *ngIf="loader" [diameter]="40"> </mat-spinner>
+    <div *ngIf="!loader" >
+        <button (click)="onNoClick()" class="primary-300-fg"  mat-button >NO</button>
+        <button (click)="save()" class="accent-700-fg"  mat-button >YES</button>
+    </div>
+
+</div>
+
+

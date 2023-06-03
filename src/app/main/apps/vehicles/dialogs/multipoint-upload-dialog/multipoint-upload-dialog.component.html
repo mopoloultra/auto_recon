@@ -1,0 +1,23 @@
+<h3 style="text-align: center;" mat-dialog-title>Add Images</h3>
+<form [formGroup]="documentFormGroup" (submit)="save()">
+
+    <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+        <mat-label>Description</mat-label>
+        <input matInput
+               name="description"
+               formControlName="description"
+        >
+    </mat-form-field>
+    <br>
+    <input formControlName="documentDataByte" name="documentDataByte" type="file" class="dropify" accept="image/*"  (change)="getFile($event)"/>
+
+    <br>
+    <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+    <button *ngIf="!loader"
+            style="margin-left: auto; margin-right: auto; display: block;"
+            mat-raised-button color="accent"
+            [disabled]="documentFormGroup.invalid">
+        SAVE
+    </button>
+</form>
+

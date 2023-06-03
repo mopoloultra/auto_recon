@@ -1,0 +1,1316 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+    <div class="vehicle-title">
+        <div style="float: left;">
+            <button routerLink="/apps/vehicles" class="refer-btn" mat-mini-fab>
+                <mat-icon>reply</mat-icon>
+            </button>
+            #{{vehicleData.stockNumber}} {{vehicleData.year}} {{vehicleData.make}} {{vehicleData.model}}
+            - {{vehicleData.colorName}}
+        </div>
+        <div style="float: right;">
+            <button (click)="updatePhase()" class="next-step-btn" mat-raised-button>
+                <mat-icon>forward</mat-icon>
+                Next Step
+            </button>
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+        <div style="background-color: #f6f8f9 !important;" fxFlex="20" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+            <div [ngClass]="{'vehicle-card-delayed': vehicleData.status ==='Delayed' , 'vehicle-card-overdue': vehicleData.status ==='Overdue' , 'vehicle-card-ontrack': vehicleData.status === 'onTrack'}">
+                <img [src]="imageConvert(vehicleData.DocumentDataByte)">
+            </div>
+            <br>
+            <div style="float: right">
+                <a class="new-btn" [matMenuTriggerFor]="menu">
+                    New +
+                </a>
+                <mat-menu #menu="matMenu">
+                    <button (click)="addTag(tag)" *ngFor="let tag of vehicleTags" mat-menu-item> {{tag.name}}</button>
+                </mat-menu>
+                <span  *ngFor="let tagss of vehicleData.vehicleTags| slice:0:3;">
+                             <a class="action-btn" [matMenuTriggerFor]="menu1" [ngClass]="tagss.colorCode">
+                            {{tagss.name}}
+                            </a>
+
+                            <mat-menu #menu1="matMenu">
+                                <button mat-menu-item (click)="deleteTag(tagss)"> Remove</button>
+                            </mat-menu>
+                        </span>
+            </div>
+            <br>
+            <div style="font-weight: bold; font-size: 20px; text-align: center; line-height: 5px;">
+                <p> {{vehicleData.year}} {{vehicleData.make}}  </p>
+                <p> {{vehicleData.model}} </p>
+            </div>
+            <div style=" margin-right: 8px; margin-left: 8px;">
+                <div style=" padding-left: 5px; padding-right: 5px;">
+                    <p style="color: #839fae;">INFORMATION</p>
+                    <table width="100%;">
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Stock #</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.stockNumber}} / USED</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; width: 30%;">VIN</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.VIN}}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Mileage</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.mileage}} Miles</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Color</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.colorName}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Trans</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.trans}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Acquired</td>
+                            <td style="text-align: left; width: 70%;">{{vehicleData.AquiredDate | date:'MM-dd-yyyy'}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Source</td>
+                            <td style="text-align: left; width: 70%;">Trade-In</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Step</td>
+                            <td style="text-align: left; width: 70%;">{{phaseID | phases: phases}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 30%;">Status</td>
+                            <td style="text-align: left; width: 70%;">Approval Not Sent</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="background-color: #FFFFFF; border-radius: 3px;">
+                    <p style="text-align: center;">RECON COST</p>
+                    <table width="100%;">
+                        <tr>
+                            <td style="text-align: left; width: 50%; color: #6a6a6a;">Estimated Recon</td>
+                            <td style="text-align: left; width: 50%; color: #6a6a6a;">{{vehicleData.reconCost | currency}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 50%; font-weight: bold;">Appraised Value</td>
+                            <td style="text-align: left; width: 50%;">{{vehicleData.AppraisedValue | currency}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 50%; font-weight: bold;">Actual Recon</td>
+                            <td style="text-align: left; width: 50%;">$4,000</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 50%; font-weight: bold;">Pack</td>
+                            <td style="text-align: left; width: 50%;">$5,000</td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; width: 50%; font-weight: bold;">Target Cost</td>
+                            <td style="text-align: left; width: 50%; color: #4caf50">$45,000</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="line-height: 10px;">
+                    <p style="color: #1A237E; font-weight: bold;">NOTE TO SELF</p>
+                    <p style="color: #a5a5a5; font-style: italic; font-size: 12px;">Check to see if we will certify
+                        this</p>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="color: #92a8b6; text-align: left; width: 50%">LATEST LOCATION</td>
+                        <td style="color: #6fdedb; text-align: right; width: 50%">Live Track</td>
+                    </tr>
+                </table>
+                <div>
+                    <button mat-icon-button>
+                        <mat-icon [ngClass]="{'yellow-600-fg': vehicleData.isFav,'fuse-black--fg': !vehicleData.isFav}">
+                            star
+                        </mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>event</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>mail_outline</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>check_box</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div style="background-color: #f6f8f9 !important;" fxFlex="80" fxFlex.md="80" fxFlex.xs="80" fxFlex.sm="80">
+            <div class="main-tab">
+                <mat-tab-group disableRipple="true">
+                    <mat-tab label="First">
+                        <ng-template mat-tab-label>
+                            Overview
+                        </ng-template>
+                        <br>
+                        <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                            <div fxFlex="100" fxFlex.md="100" fxFlex.xs="100" fxFlex.sm="100">
+                                <app-vehicle-stepper style="margin-left: 3%" (onUpdate)="getNewPhase($event)" [vehicleID]="vehicleID" [phases]="vehicleData.vehicleSteps"></app-vehicle-stepper>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="5px" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                            <div fxFlex="3" fxFlex.md="3" fxFlex.xs="3" fxFlex.sm="3"></div>
+                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                <br>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 50%">Time in Shop<br>Goal 1 Day</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 50%;">
+                                                    0.34 Days
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <hr class="dashed">
+
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 50%">Steps Remaining<br>4 Compelted</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 50%;">
+                                                    13
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </mat-card-content>
+                                </mat-card>
+
+                            </div>
+
+                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                <br>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 50%">Time in Recon<br>Goal 8 Days</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 50%;">
+                                                    0.34 Days
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <hr class="dashed">
+
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 50%">Total Spent<br>Recon Cost</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 50%;">
+                                                    $2,856.00
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </mat-card-content>
+                                </mat-card>
+
+                            </div>
+
+                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                <br>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 50%">Efficiency<br>Goal 80%</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 50%;">
+                                                    77%
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <hr class="dashed">
+
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="width: 60%">Target Completed Date<br>Front Line Ready</td>
+                                                <td style="text-align: right; font-size: 20px; color: #28c4ff; width: 40%;">
+                                                    1/28/20
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </mat-card-content>
+                                </mat-card>
+
+                            </div>
+                        </div>
+                        <p style="font-weight: bold; color: black; font-size: 20px; margin-left: 3%">
+                            #{{vehicleData.stockNumber}}</p>
+                        <div style="margin-left: 3%;">
+                            <div class="inner-tab">
+                                <mat-tab-group  [selectedIndex]="1">
+                                    <mat-tab label="Conversation"> Conversation</mat-tab>
+                                    <mat-tab label="Vehicle Tasks">
+                                        <div class="tasks-container">
+                                            <app-vehicle-tasks [vehicleID]="vehicleID" [modalView]="true" [vehicleName]="vehicleData.make + ' ' + vehicleData.model "></app-vehicle-tasks>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Activity Stream">
+                                        <app-vehicle-recent-activity [vehicleID]="vehicleID"></app-vehicle-recent-activity>
+                                    </mat-tab>
+                                    <mat-tab label="Notes">
+                                        <div class="notes-container">
+                                            <app-vehicle-notes [vehicleID]="vehicleID"></app-vehicle-notes>
+                                        </div>
+
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Second">
+                        <ng-template mat-tab-label>
+                            &nbsp;Inspections
+                        </ng-template>
+                        <br>
+                        <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                            <div fxFlex="100" fxFlex.md="100" fxFlex.xs="100" fxFlex.sm="100">
+                                <app-vehicle-stepper style="margin-left: 3%"  (onUpdate)="getNewPhase($event)"  [vehicleID]="vehicleID" [phases]="vehicleData.vehicleSteps"></app-vehicle-stepper>
+                            </div>
+                        </div>
+                        <div style="margin-left: 3%; margin-top: 3%;">
+                            <div class="inspection-innertab">
+                                <mat-tab-group #tabGroup [selectedIndex]="selectedInspectionTab" (selectedIndexChange)="selectedIndexChange($event)">
+                                    <mat-tab label="INSPECTION PHOTOS">
+                                        <ng-template mat-tab-label>
+                                            <span>
+                                                <mat-icon
+                                                        svgIcon="photo"
+                                                        class="inner-tab-icon">
+                                            </mat-icon>
+                                            </span>
+                                            <span>INSPECTION PHOTOS</span>
+                                        </ng-template>
+                                        <div style="margin-top: 2%">
+                                            <div fxLayout="row" fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                                                <div fxFlex="25" fxFlex.md="25" fxFlex.xs="25" fxFlex.sm="25">
+                                                    <button mat-flat-button color="primary">Toggle All</button>
+                                                </div>
+                                                <div fxFlex="75" fxLayoutAlign="flex-end" fxFlex.md="75" fxFlex.xs="75"
+                                                     fxFlex.sm="75">
+                                                    <button (click)="uploadDocument()" style="margin-right: 3%;" st mat-flat-button color="primary">
+                                                        <mat-icon svgIcon="upload">
+                                                        </mat-icon>
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <br>
+
+
+                                            <div style="margin-top: 10%; text-align: center; font-size: 20px;"
+                                                 *ngIf="imagesLoader">
+                                                <mat-spinner
+                                                        style="margin-left: auto; margin-right: auto; display: block;"
+                                                        color="accent" [diameter]="40"></mat-spinner>
+                                                Loading images
+                                            </div>
+
+                                            <div *ngIf="!imagesLoader">
+                                                <div *ngIf="!isImages" style="margin-top: 10%; text-align: center; font-size: 20px;">
+                                                    No images found
+                                                </div>
+
+                                                <div *ngIf="isImages" >
+                                                    <div fxLayout="row wrap" fxLayoutGap="5px"
+                                                         fxLayout.xs="row wrap" fxLayout.md="row wrap"
+                                                         fxLayout.sm="row wrap">
+                                                        <div  fxFlex="25" fxFlex.md="25"
+                                                              fxFlex.xs="25" fxFlex.sm="25" *ngFor="let data of imagesInspection" >
+                                                            <div class="container" style="cursor: pointer;">
+                                                                <img (click)="viewAllImages(data.documentTypeID)"
+                                                                     [src]="getImage(data.document)" alt="Vehicle Image" style="width: 100%; height: 200px">
+                                                                <table width="100%" style="margin-top: 10%;">
+                                                                    <tr>
+                                                                        <td style="width: 50%; text-align: left">
+                                                                            {{data.documentTypeName}}<br>
+
+                                                                        </td>
+                                                                        <td style="width: 50%; text-align: right">
+                                                                            <mat-icon *ngIf="data.isDamagedCount > 0"
+                                                                                      matBadge="{{data.isDamagedCount}}"
+                                                                                      style="margin-right: 10px !important;"
+                                                                                      svgIcon="warning">
+                                                                            </mat-icon>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                    </mat-tab>
+                                    <mat-tab label="MULTI-POINT INSPECTION">
+                                        <ng-template mat-tab-label>
+                                            <span>
+                                                <mat-icon
+                                                        svgIcon="list"
+                                                        class="inner-tab-icon">
+                                            </mat-icon>
+                                            </span>
+                                            <span>MULTI-POINT INSPECTION</span>
+                                        </ng-template>
+                                        <div class="multi-header">
+                                            <div fxLayout="row" fxLayoutGap="20px" fxLayout.xs="row" fxLayout.md="row"
+                                                 fxLayout.sm="row">
+                                                <div class="multi-container" style="color: #FFFFFF;" fxFlex="20"
+                                                     fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20">
+                                                    <mat-form-field class="select-form" appearance="outline">
+                                                        <mat-select  [formControl]="inspectionOptions" (selectionChange)="createNewInspection($event)">
+                                                            <mat-option>-- None --</mat-option>
+                                                            <mat-option *ngFor="let typesInspection of inspectionTypes"
+                                                                        value="{{typesInspection.id}}">{{typesInspection.name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <p>By {{vehicleService.getSession('userDetails').fname}} {{vehicleService.getSession('userDetails').sname}}</p>
+<!--                                                    <p>Updated 04/07/2018</p>-->
+
+                                                </div>
+                                                <div class="search-container" fxFlex="55" fxFlex.md="55" fxFlex.xs="55"
+                                                     fxFlex.sm="55" fxLayoutAlign="center center">
+                                                    <mat-form-field class="bar-search" appearance="outline">
+                                                        <input matInput (keyup)="applyFilter($event)"
+                                                               placeholder="Search for a line item">
+                                                        <mat-icon class="search-ic" matPrefix>search</mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div fxFlex="23" fxFlex.md="23" fxFlex.xs="23" fxFlex.sm="23">
+                                                    <div style="margin-bottom: 40px; text-align: right;" [hidden]="inspectionMultipoint.length === 0">
+                                                        <span class="percentage-badge">{{roundNumbersToClosestWhole(((answeredTotal/inspectionMultipoint.length) * 100))}}%</span>&nbsp;
+                                                        <span class="range-badge"> {{answeredTotal}}/{{inspectionMultipoint.length}}</span>
+                                                    </div>
+                                                    <div style="float:right;">
+                                                        <button *ngIf="inspectionID > 0" (click)="cancelInspection()" mat-raised-button>
+                                                            <mat-icon>close</mat-icon>
+                                                        </button>&nbsp;
+                                                        <button (click)="download()" mat-raised-button>
+                                                            <mat-icon>cloud_download</mat-icon>
+                                                        </button>&nbsp;
+                                                        <button (click)="view()" mat-raised-button>
+                                                            <mat-icon>print</mat-icon>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: -15px; margin-left: 20px"
+                                             class="inspection-approval-toolbar"  [hidden]="inspectionMultipoint.length === 0">
+                                            <div fxLayout="row" fxLayoutGap="5px" fxLayout.xs="row" fxLayout.md="row"
+                                                 fxLayout.sm="row" fxFlexFill>
+                                                <div *ngFor="let sectionOne of questionTypeSectOne; let myIndex = index" style="cursor: pointer;"  (click)="getSpecificTypeQuestions(sectionOne.id)" fxFlex="20" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20"
+                                                     [ngClass]="{'stage-titles': sectionOne.id !== stepsIndex,'stage-titles-active': sectionOne.id === stepsIndex}"
+                                                     class="stage-titles">
+                                                    {{myIndex+1}}. {{sectionOne.name | uppercase}}
+                                                    <span *ngIf="!loader && getTotalQuestionsTypesAnswered(sectionOne.id) !== getTotalQuestionsTypes(sectionOne.id)">
+                                                        <span class="title-badge">({{getTotalQuestionsTypesAnswered(sectionOne.id)}}/{{getTotalQuestionsTypes(sectionOne.id)}})</span>
+                                                    </span>
+
+                                                    <span *ngIf="!loader && getTotalQuestionsTypesAnswered(sectionOne.id) === getTotalQuestionsTypes(sectionOne.id)">
+                                                        <span class="title-badge" matBadge="&#10003;" matBadgeOverlap="false">({{getTotalQuestionsTypesAnswered(sectionOne.id)}}/{{getTotalQuestionsTypes(sectionOne.id)}})</span>
+                                                    </span>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="row" fxLayout.md="row"
+                                                 fxLayout.sm="row" fxFlexFill>
+                                                <div *ngFor="let sectionTwo of questionTypeSectTwo; let myIndex2 = index" style="cursor: pointer;"  (click)="getSpecificTypeQuestions(sectionTwo.id)" fxFlex="20" fxFlex.md="20" fxFlex.xs="20" fxFlex.sm="20"
+                                                     [ngClass]="{'stage-titles': sectionTwo.id !== stepsIndex,'stage-titles-active': sectionTwo.id === stepsIndex}"
+                                                     class="stage-titles">
+                                                    {{questionTypeSectOne.length+myIndex2+1}}. {{sectionTwo.name | uppercase}}
+                                                    <span *ngIf="!loader && getTotalQuestionsTypesAnswered(sectionTwo.id) !== getTotalQuestionsTypes(sectionTwo.id)">
+                                                        <span class="title-badge">({{getTotalQuestionsTypesAnswered(sectionTwo.id)}}/{{getTotalQuestionsTypes(sectionTwo.id)}})</span>
+                                                    </span>
+
+                                                    <span *ngIf="!loader && getTotalQuestionsTypesAnswered(sectionTwo.id) === getTotalQuestionsTypes(sectionTwo.id)">
+                                                        <span class="title-badge" matBadge="&#10003;" matBadgeOverlap="false">({{getTotalQuestionsTypesAnswered(sectionTwo.id)}}/{{getTotalQuestionsTypes(sectionTwo.id)}})</span>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <div style="margin-top: 10%; text-align: center; font-size: 20px;"
+                                                 [hidden]="!loader">
+                                                <mat-spinner
+                                                        style="margin-left: auto; margin-right: auto; display: block;"
+                                                        color="accent" [diameter]="40"></mat-spinner>
+                                                Loading
+                                            </div>
+                                            <div [hidden]="loader">
+                                                <table width="100%" mat-table [dataSource]="inspectionDataSource"
+                                                       matSort>
+
+                                                    <ng-container matColumnDef="id">
+                                                        <th style="width: 5%;" mat-header-cell *matHeaderCellDef
+                                                            mat-sort-header> ID
+                                                        </th>
+                                                        <td style="width: 5%;" mat-cell
+                                                            *matCellDef="let element"> {{element.id}}.
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="name">
+                                                        <th style="width: 20%; text-align: left;" mat-header-cell
+                                                            *matHeaderCellDef mat-sort-header> LINE ITEM
+                                                        </th>
+                                                        <td style="width: 20%; text-align: left;" mat-cell
+                                                            *matCellDef="let element"> {{element.name}}<br>
+
+                                                            <span *ngFor="let doc of element.listOfDoc">
+                                                                <img style="cursor: pointer" (click)="viewFullImage(doc.documentByteDataBaseSixFour)" [src]="imageConvert(doc.documentByteDataBaseSixFour)"
+                                                                     width="50">
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="photo">
+                                                        <th style="width: 5%;" mat-header-cell *matHeaderCellDef></th>
+                                                        <td style="width: 5%;" mat-cell *matCellDef="let element">
+                                                            <button (click)="addMultipointPhoto(element.id)"
+                                                                    mat-icon-button>
+                                                                <mat-icon>camera_alt</mat-icon>
+                                                            </button>
+                                                        </td>
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="note">
+                                                        <th style="width: 45%; text-align: left;" mat-header-cell
+                                                            *matHeaderCellDef mat-sort-header> NOTES
+                                                        </th>
+                                                        <td style="width: 45%; text-align: left;" mat-cell
+                                                            *matCellDef="let element">
+                                                            {{element.note}} <span *ngIf="element.note"><a
+                                                                class="accent-600-fg" style="cursor: pointer;"
+                                                                (click)="viewAllNotes(element.id)">View All</a></span><br
+                                                                *ngIf="element.note">
+                                                            <a style="cursor: pointer;" [matMenuTriggerFor]="menu1">
+                                                                <mat-icon class="repair-icons"
+                                                                          svgIcon="edit"></mat-icon>&nbsp;Add Notes</a>
+                                                            <mat-menu #menu1="matMenu">
+                                                                <div style="width: 550px; height: 150px;">
+                                                                    <div (click)="$event.stopPropagation()">
+                                                                        <mat-form-field appearance="outline" style=" margin-left: 10px; width: 45% !important;">
+                                                                            <mat-label>Notes</mat-label>
+                                                                            <textarea matInput #notess name="notes" [formControl]="notes" maxlength="150"></textarea>
+                                                                            <mat-hint align="end">{{notess.value.length}}
+                                                                                / 150
+                                                                            </mat-hint>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div style="margin-left: 10px;">
+                                                                        <button mat-raised-button color="accent"
+                                                                                (click)="saveNote(element.id)"
+                                                                                [disabled]="notes.invalid">
+                                                                            SAVE
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </mat-menu>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="action">
+                                                        <th style="width: 10%;" mat-header-cell *matHeaderCellDef
+                                                            mat-sort-header> ACTION
+                                                        </th>
+                                                        <td style="width: 10%;" mat-cell *matCellDef="let element">
+                                                            <span class="multi-selector">
+                                                                <span *ngIf="element.selectedAction !== null">
+                                                                    <mat-form-field class="select-form" appearance="outline">
+                                                                        <mat-select [value]="element.selectedAction.actionID.toString()" (selectionChange)="addInspectionAction($event, element.id,inspectionDataSource.filteredData.indexOf(element))">
+                                                                            <mat-option>-- None --</mat-option>
+                                                                            <mat-option
+                                                                                    *ngFor="let actionss of inspectionQuestionActionTypes"
+                                                                                    value="{{actionss.id}}">
+                                                                                {{actionss.name}}
+                                                                            </mat-option>
+
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </span>
+
+                                                                <span *ngIf="element.selectedAction === null">
+                                                                    <mat-form-field class="select-form" appearance="outline">
+                                                                        <mat-select  (selectionChange)="addInspectionAction($event, element.id,inspectionDataSource.filteredData.indexOf(element))">
+                                                                            <mat-option>-- None --</mat-option>
+                                                                            <mat-option
+                                                                                    *ngFor="let actionss of inspectionQuestionActionTypes"
+                                                                                    value="{{actionss.id}}">
+                                                                                {{actionss.name}}
+                                                                            </mat-option>
+
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </span>
+
+                                                            </span>
+
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="status">
+                                                        <th style="width: 15%; text-align: right;" mat-header-cell
+                                                            *matHeaderCellDef> PASS FAIL N/A
+                                                        </th>
+                                                        <td style="width: 15%; text-align: right;" mat-cell
+                                                            *matCellDef="let element">
+                                                            <span>
+                                                                 <mat-icon  style="cursor: pointer!important;" (click)="addInspectionAnswer(1,element.id, inspectionDataSource.filteredData.indexOf(element))"
+                                                                         svgIcon="{{getPassIcon(element.selectedAnswerID)}}"
+                                                                         class="pass-icon"></mat-icon>&nbsp;
+                                                            <mat-icon  style="cursor: pointer!important;"  (click)="addInspectionAnswer(2,element.id, inspectionDataSource.filteredData.indexOf(element))"
+                                                                    svgIcon="{{getFailIcon(element.selectedAnswerID)}}"
+                                                                    class="fail-icon"></mat-icon>&nbsp;
+                                                            <mat-icon   style="cursor: pointer!important;"  (click)="addInspectionAnswer(3,element.id, inspectionDataSource.filteredData.indexOf(element))"
+                                                                    svgIcon="{{getNAIcon(element.selectedAnswerID)}}"
+                                                                      class="na-icon"></mat-icon>
+                                                            </span>
+
+
+
+<!--                                                            <button *ngIf="element.selectedAnswerID === 0" mat-button-->
+<!--                                                                    [matMenuTriggerFor]="menu">Answer-->
+<!--                                                            </button>-->
+<!--                                                            <mat-menu #menu="matMenu">-->
+<!--                                                                <button (click)="addInspectionAnswer(1,element.id)"-->
+<!--                                                                        mat-menu-item><span class="dot pass-dot"></span>-->
+<!--                                                                    &nbsp;Pass-->
+<!--                                                                </button>-->
+<!--                                                                <button (click)="addInspectionAnswer(2,element.id)"-->
+<!--                                                                        mat-menu-item><span class="dot fail-dot"></span>-->
+<!--                                                                    &nbsp;Fail-->
+<!--                                                                </button>-->
+<!--                                                                <button (click)="addInspectionAnswer(3,element.id)"-->
+<!--                                                                        mat-menu-item><span class="dot na-dot"></span>-->
+<!--                                                                    &nbsp;N/A-->
+<!--                                                                </button>-->
+<!--                                                            </mat-menu>-->
+
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <tr mat-header-row
+                                                        *matHeaderRowDef="inspectionDisplayedColumns"></tr>
+                                                    <tr mat-row
+                                                        *matRowDef="let row; columns: inspectionDisplayedColumns;"></tr>
+                                                </table>
+                                                <mat-paginator #paginatorInspection [pageSizeOptions]="[5, 10, 20]"
+                                                               showFirstLastButtons></mat-paginator>
+                                            </div>
+
+
+                                            <p [hidden]="loader" style="text-align: center;">
+                                                Completed {{inspectionNumbers.completed}}
+                                                of {{multipointDataSource.length}} Inspection Items |
+                                                Passed: {{inspectionNumbers.passed}} |
+                                                Failed:  {{inspectionNumbers.failed}} | N/A:  {{inspectionNumbers.na}} |
+                                                Unselected: {{inspectionNumbers.unselcted}}
+                                            </p>
+
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="SUBLET PORTAL">
+                                        <ng-template mat-tab-label>
+                                            <span>
+                                                <mat-icon
+                                                        svgIcon="photo"
+                                                        class="inner-tab-icon">
+                                            </mat-icon>
+                                            </span>
+                                            <span>SUBLET PORTAL</span>
+                                        </ng-template>
+                                        <app-inspection-sublet-portal [vehicleID]="vehicleID"></app-inspection-sublet-portal>
+                                    </mat-tab>
+                                    <mat-tab label="RECON PLAN">
+
+                                        <ng-template mat-tab-label>
+                                            <span>
+                                                <mat-icon
+                                                        svgIcon="{{approvalIcon}}"
+                                                        class="inner-tab-icon">
+                                            </mat-icon>
+                                            </span>
+                                            <span>{{approvalTitle}}</span>
+                                        </ng-template>
+
+
+                                        <div *ngIf="!approval" fxLayout="row" fxLayout.xs="row"
+                                             fxLayout.md="row" fxLayout.sm="row" style="margin-top: 2%">
+                                            <div>
+                                                <button mat-raised-button>
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    CREATE NEW PLAN
+                                                </button>
+                                            </div>
+                                            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+                                                <button (click)="toggleApproval()" class="approve" mat-raised-button>
+                                                    <mat-icon svgIcon="play-button"></mat-icon>
+                                                    REQUEST APPROVAL
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div style="margin-top: 3%" fxLayoutGap="20px" fxLayout="row" fxLayout.xs="row"
+                                             fxLayout.md="row" fxLayout.sm="row">
+                                            <div fxFlex="2" fxFlex.md="2" fxFlex.xs="2" fxFlex.sm="2"></div>
+                                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                                <mat-card>
+                                                    <div mat-card-image class="inspection-card-header certified">
+                                                        <span style="float: left;">CERTIFIED</span>
+                                                        <span style="float: right;">
+                                                            <span *ngIf="!approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">file_copy</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">delete_outline</mat-icon>
+                                                            </span>
+
+                                                                 <span *ngIf="approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+
+                                                                </span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="inspection-card-content">
+                                                        <p class="inspection-card-amount">$1,3000.00</p>
+                                                        <p class="inspection-card-text">Written By Dylan Smith</p>
+                                                        <p class="inspection-card-text">Updated By Jan 28, 2020</p>
+                                                    </div>
+
+                                                    <mat-divider></mat-divider>
+                                                    <p style="text-align: center;"><a (click)="selectedTabRecon('1')"
+                                                                                      class="inspection-card-link">VIEW/EDIT</a>
+                                                    </p>
+                                                </mat-card>
+                                                <mat-icon *ngIf="selectedRecon === '1'" svgIcon="down-arrow"
+                                                          class="inspection-view-icon certified-text"></mat-icon>
+                                            </div>
+
+                                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                                <mat-card>
+                                                    <div mat-card-image class="inspection-card-header retail">
+                                                        <span style="float: left;">RETAIL</span>
+                                                        <span style="float: right;">
+                                                            <span *ngIf="!approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">file_copy</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">delete_outline</mat-icon>
+                                                            </span>
+
+                                                                 <span *ngIf="approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+
+                                                                </span>
+
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="inspection-card-content">
+                                                        <p class="inspection-card-amount">$1,3000.00</p>
+                                                        <p class="inspection-card-text">Written By Dylan Smith</p>
+                                                        <p class="inspection-card-text">Updated By Jan 28, 2020</p>
+                                                    </div>
+
+                                                    <mat-divider></mat-divider>
+                                                    <p style="text-align: center;"><a (click)="selectedTabRecon('2')"
+                                                                                      class="inspection-card-link">VIEW/EDIT</a>
+                                                    </p>
+                                                </mat-card>
+                                                <mat-icon *ngIf="selectedRecon === '2'" svgIcon="down-arrow"
+                                                          class="inspection-view-icon retail-text"></mat-icon>
+                                            </div>
+
+                                            <div fxFlex="30" fxFlex.md="30" fxFlex.xs="30" fxFlex.sm="30">
+                                                <mat-card>
+                                                    <div mat-card-image class="inspection-card-header wholesale">
+                                                        <span style="float: left;">WHOLESALE</span>
+                                                        <span style="float: right;">
+                                                            	<span *ngIf="!approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">file_copy</mat-icon>
+                                                                <mat-icon
+                                                                        class="inspection-card-icon">delete_outline</mat-icon>
+                                                            </span>
+
+                                                                 <span *ngIf="approval">
+                                                                <mat-icon class="inspection-card-icon">print</mat-icon>
+
+                                                                </span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="inspection-card-content">
+                                                        <p class="inspection-card-amount">$1,3000.00</p>
+                                                        <p class="inspection-card-text">Written By Dylan Smith</p>
+                                                        <p class="inspection-card-text">Updated By Jan 28, 2020</p>
+                                                    </div>
+
+                                                    <mat-divider></mat-divider>
+                                                    <p style="text-align: center;"><a (click)="selectedTabRecon('3')"
+                                                                                      class="inspection-card-link">VIEW/EDIT</a>
+                                                    </p>
+                                                </mat-card>
+                                                <mat-icon *ngIf="selectedRecon === '3'" svgIcon="down-arrow"
+                                                          class="inspection-view-icon wholesale-text"></mat-icon>
+                                            </div>
+
+                                        </div>
+                                        <br>
+                                        <div [hidden]="selectedRecon === 0">
+                                            <div *ngIf="!approval" class="inspection-approval-toolbar">
+                                                Estimated - Certified
+
+                                                <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+                                                    <button mat-button>
+                                                        <mat-icon svgIcon="checkmark"></mat-icon>
+                                                        Force Approve
+                                                    </button>&nbsp;
+                                                    <button mat-button>
+                                                        <mat-icon>print</mat-icon>
+                                                        Print Estimate
+                                                    </button>&nbsp;
+                                                    <button mat-button>
+                                                        <mat-icon svgIcon="paper"></mat-icon>
+                                                        Copy Estimate
+                                                    </button>&nbsp;
+                                                    <button mat-button>
+                                                        <mat-icon svgIcon="bin"></mat-icon>
+                                                        Delete Estimate
+                                                    </button>&nbsp;
+
+                                                </div>
+                                            </div>
+                                            <div *ngIf="approval" class="inspection-approval-toolbar">
+                                                Estimated - Certified
+
+                                                <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+                                                    <button class="revision-btn" mat-raised-button>
+                                                        <mat-icon>refresh</mat-icon>
+                                                        REQUEST REVISION
+                                                    </button>&nbsp;
+                                                    <button class="auction" mat-raised-button>
+                                                        <mat-icon>gavel</mat-icon>
+                                                        SEND TO AUCTION
+                                                    </button> &nbsp;
+                                                    <button (click)="toggleRecon()" class="approve" mat-raised-button>
+                                                        <mat-icon svgIcon="checkmark"></mat-icon>
+                                                        APPROVE
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="!approval" fxLayout="row" fxLayoutAlign="center center"
+                                                 class="inspection-recon-toolbar">
+                                                <button mat-button [matMenuTriggerFor]="inspectionOptions">
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    INSPECTION LINE ITEM
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>&nbsp;
+                                                <mat-menu #inspectionOptions="matMenu">
+                                                    <button mat-menu-item>Item 1</button>
+                                                    <button mat-menu-item>Item 2</button>
+                                                </mat-menu>
+                                                <button mat-button [matMenuTriggerFor]="presetOptions">
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    PRESET LINE ITEM
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>&nbsp;
+                                                <mat-menu #presetOptions="matMenu">
+                                                    <button mat-menu-item>Item 1</button>
+                                                    <button mat-menu-item>Item 2</button>
+                                                </mat-menu>
+
+                                                <button mat-button [matMenuTriggerFor]="maunualOptions">
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    MANUAL LINE ITEM
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>&nbsp;
+                                                <mat-menu #maunualOptions="matMenu">
+                                                    <button mat-menu-item>Item 1</button>
+                                                    <button mat-menu-item>Item 2</button>
+                                                </mat-menu>
+
+                                                <button mat-button [matMenuTriggerFor]="estimateOptions">
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    ESTIMATE REQUEST LINE ITEM
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>&nbsp;
+                                                <mat-menu #estimateOptions="matMenu">
+                                                    <button mat-menu-item>Item 1</button>
+                                                    <button mat-menu-item>Item 2</button>
+                                                </mat-menu>
+                                            </div>
+
+                                            <div class="inspection-approval-toolbar">
+
+                                                <table class="recon-table" width="100%" mat-table
+                                                       [dataSource]="approvalDataSource" matSort>
+
+
+                                                    <ng-container matColumnDef="status">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element">
+                                                            <mat-icon svgIcon="checked"></mat-icon>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="id">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.id}}.</td>
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="vendor">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vendor
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.vendor}} </td>
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="decsiption">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                            Description
+                                                        </th>
+                                                        <td mat-cell
+                                                            *matCellDef="let element"> {{element.decsiption}} </td>
+                                                        <!--                                                        <td mat-footer-cell *matFooterCellDef> Totals: </td>-->
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="operation">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                            Operation
+                                                        </th>
+                                                        <td mat-cell
+                                                            *matCellDef="let element"> {{element.operation}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="type">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                                                    </ng-container>
+
+
+                                                    <ng-container matColumnDef="qty">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                            Quantity
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
+                                                        <!--                                                        <td mat-footer-cell *matFooterCellDef> {{getTotalQty()}} </td>-->
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="part">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Part #
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.part}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="parts">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Parts
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.parts}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="labor">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Labor
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.labor}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="rate">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate</th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="tax">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tax</th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.tax}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="total">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="assign">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Assign
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element">
+                                                            <button class="assign-btn" mat-flat-button>Assign</button>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="actions">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element">
+                                                            <mat-icon svgIcon="comment"></mat-icon>&nbsp;
+                                                            <mat-icon svgIcon="attached"></mat-icon>&nbsp;
+                                                            <mat-icon *ngIf="!approval" svgIcon="edit"></mat-icon>&nbsp;
+                                                            <mat-icon *ngIf="!approval" svgIcon="bin"></mat-icon>&nbsp;
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="revision">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element">
+                                                            <mat-icon>refresh</mat-icon>
+                                                        </td>
+                                                    </ng-container>
+
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                    <!--                                                    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>-->
+                                                </table>
+                                            </div>
+                                            <div style="margin-top: 3%" fxLayoutGap="20px" fxLayout="row"
+                                                 fxLayout.xs="row" fxLayout.md="row" fxLayout.sm="row">
+                                                <div fxFlex="60" fxFlex.md="60" fxFlex.xs="60" fxFlex.sm="60">
+                                                    Estimated Notes
+                                                </div>
+
+                                                <div fxFlex="35" fxFlex.md="35" fxFlex.xs="35" fxFlex.sm="35">
+                                                    <table class="details">
+
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Parts</td>
+                                                            <td class="right-col-approval-tab">33</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Labor</td>
+                                                            <td class="right-col-approval-tab">333</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Flat Rate</td>
+                                                            <td class="right-col-approval-tab">988</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Sublet</td>
+                                                            <td class="right-col-approval-tab">233</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Subtotal</td>
+                                                            <td class="right-col-approval-tab">1890</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="left-col-approval-tab">Tax</td>
+                                                            <td class="right-col-approval-tab">938</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="left-col-approval-tab">Estimated Total</th>
+                                                            <th class="right-col-approval-tab">2,878.00</th>
+
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </mat-tab>
+                                    <mat-tab label="REPAIR ORDER">
+                                        <ng-template mat-tab-label>
+                                             <span>
+                                                <mat-icon
+                                                        svgIcon="car-repair"
+                                                        class="inner-tab-icon">
+                                            </mat-icon>
+                                            </span>
+                                            <span>REPAIR ORDER</span>
+                                        </ng-template>
+                                        <div fxLayout="row" fxLayout.xs="row"
+                                             fxLayout.md="row" fxLayout.sm="row" style="margin-top: 2%">
+                                            <div>
+                                                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                                                    <mat-button-toggle value="collapse">
+                                                        <mat-icon>fullscreen_exit</mat-icon>
+                                                        Collapse
+                                                    </mat-button-toggle>
+                                                    <mat-button-toggle value="all">
+                                                        <mat-icon> zoom_out_map</mat-icon>
+                                                        Show All
+                                                    </mat-button-toggle>
+                                                </mat-button-toggle-group>
+                                            </div>
+                                            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+                                                <button color="accent" mat-raised-button>
+                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                    Add Line item
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 10px;" class="inspection-approval-toolbar">
+                                            <div fxLayout="row" fxLayout.xs="row"
+                                                 fxLayout.md="row" fxLayout.sm="row" style="margin-top: 2%">
+                                                <div>
+                                                    Repair Order- Certified
+                                                </div>
+                                                <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+                                                    ET: 6.5 hrs | CT: 0.8 hrs
+                                                </div>
+                                            </div>
+
+                                            <table class="repair-tab" width="100%" mat-table
+                                                   [dataSource]="repairsDataSource" matSort>
+
+                                                <ng-container matColumnDef="remove">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <button mat-icon-button>
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.id}}.</td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="vendor">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> VENDOR</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.vendor}}.</td>
+                                                </ng-container>
+
+
+                                                <ng-container matColumnDef="description">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPTION
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <p>{{element.description}}
+                                                            <mat-icon *ngIf="!approval" class="repair-icons"
+                                                                      svgIcon="edit"></mat-icon>&nbsp;
+                                                        </p>
+                                                        <a>Show Parts & Labor, Add Parts & Labor</a>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="operation">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> OPERATION
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.operation}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="estimated">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTIMATED
+                                                        TIME
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.estimated}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="comments">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                    <td mat-cell *matCellDef="let element">
+
+                                                        <button mat-icon-button>
+                                                            <mat-icon
+                                                                    style="color: #2D323D !important; font-size: 10px !important;"
+                                                                    svgIcon="chat"></mat-icon>&nbsp;
+                                                        </button>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="notes">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOTES</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <a>
+                                                            <mat-icon class="repair-icons" svgIcon="edit"></mat-icon>&nbsp;Add
+                                                            Notes</a>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="timer">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIMER</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <span [hidden]="timerReady">
+                                                                <span [hidden]="selectedPerson">
+                                                                <mat-form-field class="select-form"
+                                                                                appearance="outline">
+                                                                    <mat-select [formControl]="userName">
+                                                                        <mat-option>-- None --</mat-option>
+                                                                            <mat-option
+                                                                                    (onSelectionChange)="setUpTimer($event)"
+                                                                                    value="Jesse Sampong">Jesse Sampong</mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </span>
+                                                            <span [hidden]="!selectedPerson">
+
+                                                                  <button (click)="startTimer()" mat-stroked-button><mat-icon>play_arrow</mat-icon> &nbsp; Start</button><br>
+                                                                <span style="font-size: 10px;">Assigned to {{userName.value}}</span>
+
+                                                            </span>
+                                                        </span>
+
+                                                        <span [hidden]="!timerReady">
+                                                            <button class="pause-btn" mat-flat-button><mat-icon>pause</mat-icon> Pause</button><button
+                                                                class="completed-btn" color="accent" mat-flat-button>Complete</button><br>
+                                                            <span style="font-size: 10px;">Started by {{userName.value}} {{dateStarted | date : 'M/d/yy, h:mm a'}}</span>
+                                                        </span>
+
+
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="completion">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Completion
+                                                        Time
+                                                    </th>
+                                                    <td style="text-align: right;" mat-cell *matCellDef="let element">
+                                                        <span>{{element.completion}}</span>
+
+                                                    </td>
+                                                </ng-container>
+
+
+                                                <tr mat-header-row *matHeaderRowDef="repairDisplayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: repairDisplayedColumns;"></tr>
+                                            </table>
+                                            <mat-paginator #paginatorRepair [pageSizeOptions]="[5, 10, 20]"
+                                                           showFirstLastButtons></mat-paginator>
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Third">
+                        <ng-template mat-tab-label>
+                            &nbsp;<span matBadge="5" matBadgeOverlap="false">Sublet Portal</span>
+                        </ng-template>
+                        <app-inspection-sublet-portal [vehicleID]="null"></app-inspection-sublet-portal>
+                    </mat-tab>
+                    <mat-tab label="Fourth">
+                        <ng-template mat-tab-label>
+                            &nbsp;<span matBadge="5" matBadgeColor="warn" matBadgeOverlap="false">Recalls</span>
+                        </ng-template>
+                        Content 4
+                    </mat-tab>
+                    <mat-tab label="Fifth">
+                        <ng-template mat-tab-label>
+                            Cerification
+                        </ng-template>
+                        Content 5
+                    </mat-tab>
+                    <mat-tab label="Sixth">
+                        <ng-template mat-tab-label>
+                            Attachments
+                        </ng-template>
+                        Content 6
+                    </mat-tab>
+                    <mat-tab disabled>
+                        <ng-template mat-tab-label>
+                            <mat-icon
+                                    matTooltip="Photos"
+                                    svgIcon="photo"
+                                    class="main-tab-icon"
+                                    matBadge="&#10003;"
+                                    style="margin-right: 10px"
+                                    matTooltipPosition="after">
+                            </mat-icon>
+
+                            <mat-icon
+                                    matTooltip="Todo"
+                                    svgIcon="list"
+                                    class="main-tab-icon"
+                                    matBadge="&#10003;"
+                                    matTooltipPosition="after">
+                            </mat-icon>&nbsp;&nbsp;&nbsp;
+
+                            <mat-icon
+                                    matTooltip="Invoice"
+                                    svgIcon="invoice"
+                                    class="main-tab-icon"
+                                    matBadge="&#x2757;"
+                                    matTooltipPosition="after">
+                            </mat-icon>&nbsp;&nbsp;
+
+                            <mat-icon
+                                    matTooltip="RO"
+                                    svgIcon="ro"
+                                    matBadge="5"
+                                    matTooltipPosition="after">
+                            </mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab disabled>
+                        <ng-template mat-tab-label>
+                            <mat-form-field>
+                                <mat-label>Actions</mat-label>
+                                <mat-select>
+                                    <mat-option value="option1">Option 1</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </ng-template>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>

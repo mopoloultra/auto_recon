@@ -1,0 +1,58 @@
+<h3 style="text-align: center;" mat-dialog-title>Add Todo Item</h3>
+<div mat-dialog-content>
+    <form [formGroup]="todoForm" (submit)="addTodo()">
+        <mat-form-field appearance="outline" class="title mt-8" fxFill>
+            <mat-label>Title</mat-label>
+            <input matInput
+                   name="name"
+                   formControlName="name"
+                   required>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" fxFill>
+            <mat-label>Description</mat-label>
+            <textarea matInput #notes
+                      name="description"
+                      formControlName="description"
+                      maxlength="150">
+                </textarea>
+            <mat-hint align="end">{{notes.value.length}} / 150</mat-hint>
+        </mat-form-field>
+
+        <div style="margin-top: 10px;">
+            <mat-checkbox formControlName="isActiveFlag">Active</mat-checkbox>
+        </div>
+
+        <div formArrayName="phases"  style="margin-top: 10px;">
+            <div *ngFor="let name of phases.controls; index as idx">
+                <mat-form-field appearance="outline" style="width: 85% !important;">
+                    <mat-label>Phase Name</mat-label>
+                    <input matInput
+                           [formControlName]="idx"
+                           required>
+                </mat-form-field>
+                &nbsp;
+                <span>
+                     <a *ngIf="idx > 0" (click)="deletePhasesField(idx)" mat-mini-fab color="primary">
+                        <mat-icon>delete</mat-icon>
+                     </a>
+                </span>
+            </div>
+        </div>
+        <a (click)="addPahseField()" style="cursor: pointer;">Add phase</a>
+
+
+        <div style="margin-top: 10px">
+            <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+            <button *ngIf="!loader"
+                    type="submit"
+                    style="margin-left: auto; margin-right: auto; display: block;"
+                    mat-raised-button color="accent"
+                    [disabled]="todoForm.invalid">
+                SAVE
+            </button>
+        </div>
+
+    </form>
+</div>

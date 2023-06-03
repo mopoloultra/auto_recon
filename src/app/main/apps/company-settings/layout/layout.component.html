@@ -1,0 +1,105 @@
+<div  class="page-layout simple fullwidth" fxLayout="column">
+<!--hjk-->
+
+    <div  fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayout.sm="column" fxFlexFill>
+        <div fxFlex="18" fxFlex.md="18" class="side-menu-settings">
+            <mat-list>
+                <mat-list-item>
+                    Settings
+                </mat-list-item>
+                <mat-list-item >
+                    <button routerLinkActive="active" routerLink="/apps/settings/general"  class="menu-item" mat-flat-button>
+                        <mat-icon>settings_applications</mat-icon>&nbsp;
+                        General Settings
+                    </button>
+                </mat-list-item>
+                <mat-list-item >
+                    <button routerLinkActive="active" routerLink="/apps/settings/billing"  class="menu-item" mat-flat-button>
+                        <mat-icon>view_carousel</mat-icon>&nbsp;
+                        Steps Management
+                    </button>
+                </mat-list-item>
+                <mat-list-item >
+                    <button routerLinkActive="active" routerLink="/apps/settings/users"  class="menu-item" mat-flat-button>
+                        <mat-icon>person_outline</mat-icon>&nbsp;
+                        Users
+                    </button>
+                </mat-list-item>
+<!--                <mat-list-item >-->
+<!--                    <button routerLinkActive="active" routerLink="/apps/settings/forms"  class="menu-item" mat-flat-button>-->
+<!--                        <mat-icon>assignment</mat-icon>&nbsp;-->
+<!--                        Work Request Forms-->
+<!--                    </button>-->
+<!--                </mat-list-item>-->
+                <mat-list-item>
+                    <button routerLinkActive="active" routerLink="/apps/settings/roles"  class="menu-item" mat-flat-button>
+                        <mat-icon>card_membership</mat-icon>&nbsp;
+                        Roles
+                    </button>
+                </mat-list-item>
+
+<!--                <mat-list-item>-->
+<!--                    <button routerLinkActive="active" routerLink="/apps/settings/invite"  class="menu-item" mat-flat-button>-->
+<!--                        <mat-icon>how_to_reg</mat-icon>&nbsp;-->
+<!--                        Invite-->
+<!--                    </button>-->
+<!--                </mat-list-item>-->
+
+<!--                <mat-list-item>-->
+<!--                    <button routerLinkActive="active" routerLink="/apps/settings/view-all"  class="menu-item" mat-flat-button>-->
+<!--                        <mat-icon>list</mat-icon>&nbsp;-->
+<!--                        View All-->
+<!--                    </button>-->
+<!--                </mat-list-item>-->
+
+                <mat-list-item *ngIf="usersService.getSession('userDetails').isSuper ">
+                    <button routerLinkActive="active" routerLink="/apps/settings/companies"  class="menu-item" mat-flat-button>
+                        <mat-icon>domain</mat-icon>&nbsp;
+                        Companies
+                    </button>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <button routerLinkActive="active" routerLink="/apps/settings/tags"  class="menu-item" mat-flat-button>
+                        <mat-icon>label</mat-icon>&nbsp;
+                        Tags
+                    </button>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <button routerLinkActive="active" routerLink="/apps/settings/announcement"  class="menu-item" mat-flat-button>
+                        <mat-icon>notification_important</mat-icon>&nbsp;
+                        Announcements
+                    </button>
+                </mat-list-item>
+
+                <mat-list-item  *ngIf="usersService.getSession('userDetails').isSuper ">
+                    <button routerLinkActive="active" routerLink="/apps/settings/questions"  class="menu-item" mat-flat-button>
+                        <mat-icon>format_quote</mat-icon>&nbsp;
+                        Questions
+                    </button>
+                </mat-list-item>
+
+                <mat-list-item  *ngIf="usersService.getSession('userDetails').isSuper ">
+                    <button routerLinkActive="active" routerLink="/apps/settings/vendor"  class="menu-item" mat-flat-button>
+                        <mat-icon>view_list</mat-icon>&nbsp;
+                        Vendors
+                    </button>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <button routerLinkActive="active" routerLink="/apps/settings/error-logs"  class="menu-item" mat-flat-button>
+                        <mat-icon>error_outline</mat-icon>&nbsp;
+                        Error Logs
+                    </button>
+                </mat-list-item>
+
+            </mat-list>
+        </div>
+        <div fxFlex="82" fxFlex.md="82">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+
+</div>

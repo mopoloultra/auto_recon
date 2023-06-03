@@ -1,0 +1,39 @@
+
+<h2 mat-dialog-title>Company Details</h2>
+<hr>
+<mat-dialog-content >
+    <table class="a">
+
+        <tr>
+            <td><b> Name</b> </td>
+            <td>{{companyData.name}}</td>
+
+        </tr>
+        <tr>
+            <td><b>Contact</b> </td>
+            <td>{{companyData.contact}}</td>
+        </tr>
+        <tr>
+            <td><b>Email</b></td>
+            <td>{{companyData.email}}</td>
+        </tr>
+        <tr>
+            <td><b>Address</b></td>
+            <td>{{companyData.address}}</td>
+        </tr>
+        <br>
+        <br>
+
+        <tr>
+            <td><b>Created By</b></td>
+            <td>{{companyData.createdByFname}}&nbsp;{{companyData.createdByOname}}&nbsp;{{companyData.createdBySname}}</td>
+        </tr>
+
+    </table>
+
+</mat-dialog-content>
+<hr>
+<br>
+<mat-dialog-actions style="align-items:center;">
+    <button position='start'  color="accent" class="submit-button" mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>

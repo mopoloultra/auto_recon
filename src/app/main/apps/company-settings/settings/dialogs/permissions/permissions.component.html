@@ -1,0 +1,21 @@
+<h3 style="text-align: center;" mat-dialog-title>User Permissions</h3>
+<form [formGroup]="permissionsFormGroup">
+    <table class="permissions-tab">
+        <tr><td><mat-checkbox formControlName="isAdmin">Admin</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToCreateEditUser">Create and Edit User</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToCreateEditTag">Create and Edit Tag</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToCreateEditRoles">Create and Edit Roles</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToViewUser">View User</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToChangeStep">Change Steps</mat-checkbox></td></tr>
+        <tr><td><mat-checkbox formControlName="IsAllowedToAssignTasks">Assign Tasks</mat-checkbox></td></tr>
+
+    </table><br>
+
+    <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+    <button *ngIf="!loader"
+            style="margin-left: auto; margin-right: auto; display: block;"
+            (click)="save()"
+            mat-raised-button color="accent">
+        SAVE
+    </button>
+</form>

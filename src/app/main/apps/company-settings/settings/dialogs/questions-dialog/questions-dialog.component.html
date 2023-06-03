@@ -1,0 +1,80 @@
+<div style="float: right;">
+    <button (click)="close()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<h3 style="text-align: center;" mat-dialog-title>Multipoint Questions</h3>
+
+<div style="height: 400px;">
+    <form>
+        <div style="height: 350px !important;  overflow-y: scroll !important; overflow-x: hidden !important;">
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Name</mat-label>
+                <input matInput
+                       [(ngModel)]="data.name"
+                       name="name"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Description</mat-label>
+                <input matInput
+                       [(ngModel)]="data.description"
+                       name="description"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Position</mat-label>
+                <input matInput
+                       [(ngModel)]="data.position"
+                       name="description"
+                       required>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Question Type</mat-label>
+                <mat-select name="TypeID" [(ngModel)]="data.TypeID">
+                    <mat-option *ngFor="let company of data.inspectionMultipointQuestionTypes" [value]="company.id">{{company.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;" >
+                <mat-label>Vendor Type</mat-label>
+                <mat-select  name="companyVendorType"  [(ngModel)]="data.companyVendorType">
+                    <mat-option *ngFor="let company of data.vendorTypeList" [value]="company.id">{{company.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <br>
+
+            <div style="margin-top: 10px;">
+                <mat-checkbox name="isCreateSubletItemOnFail" [(ngModel)]="data.isCreateSubletItemOnFail">Create Sublet Item on Fail</mat-checkbox>&nbsp;&nbsp;
+            </div>
+            <br>
+
+
+
+        </div>
+
+        <div style="height: 50px !important;">
+            <br>
+            <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent" [diameter]="40"></mat-spinner>
+            <button *ngIf="!loader"
+                    (click)="save()"
+                    style="margin-left: auto; margin-right: auto; display: block;"
+                    mat-raised-button color="accent">
+                SAVE
+            </button>
+        </div>
+
+    </form>
+</div>
+

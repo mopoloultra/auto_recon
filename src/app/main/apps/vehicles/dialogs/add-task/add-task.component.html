@@ -1,0 +1,113 @@
+<div style="height: 50px">
+    <div style="float: right;">
+        <button mat-icon-button (click)="onNoClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <br>
+
+    <h3 style="text-align: center;" mat-dialog-title>Add New Task</h3>
+</div>
+
+
+<form [formGroup]="taskFormGroup" (submit)="createTodo()">
+    <div style="height: 480px; overflow-y: scroll;">
+
+
+    <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;">
+        <mat-label>Name</mat-label>
+        <input matInput
+               name="name"
+               formControlName="name"
+               required>
+
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline" class="title mt-8" style="width: 100% !important;">
+        <mat-label>Description</mat-label>
+        <input matInput
+               name="description"
+               formControlName="description"
+        >
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline" style="width: 48% !important;">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    &nbsp;&nbsp;
+
+    <mat-form-field appearance="outline" style="width: 48% !important;">
+        <mat-label>Due Date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="dueDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <br>
+
+    <p *ngIf="tags.length > 0">Selected Tags</p>
+    <mat-chip-list>
+        <mat-chip
+                *ngFor="let tag of tags"
+                [selectable]="selectable"
+                [removable]="removable"
+                [ngClass]="tag.colorCode"
+                (removed)="removeLabel(tag)">
+            {{tag.name}}
+            &nbsp;&nbsp;<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+    <mat-form-field class="form-fields" appearance="outline" style="width: 50%;">
+        <mat-label>Tags</mat-label>
+        <mat-select (selectionChange)="addSelectedLabel($event)" required>
+            <mat-option>-- None --</mat-option>
+            <mat-option *ngFor="let label of labels" [value]="label">{{label.name}}</mat-option>
+
+        </mat-select>
+    </mat-form-field>
+    <br>
+    <br>
+
+
+    <mat-form-field style="width: 100%;">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip
+                    *ngFor="let user of userName"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="remove(user)">
+                {{user}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+                    placeholder="Assigned users"
+                    [matAutocomplete]="auto"
+                    #usersInput
+                    [formControl]="usersCtrl"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                <span>{{user.name}}</span>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    </div>
+    <br>
+    <div style="height: 50px">
+        <mat-spinner *ngIf="loader" style="margin-left: auto; margin-right: auto; display: block;" color="accent"
+                     [diameter]="40"></mat-spinner>
+        <button *ngIf="!loader"
+                style="margin-left: auto; margin-right: auto; display: block;"
+                mat-raised-button color="accent"
+                [disabled]="taskFormGroup.invalid">
+            SAVE
+        </button>
+    </div>
+</form>
+
